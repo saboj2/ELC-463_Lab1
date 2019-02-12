@@ -1,4 +1,4 @@
-
+import java.util.BitSet;
 /**
  * Write a description of class LRUCache here.
  *
@@ -17,5 +17,19 @@ public class LRUCache extends Cache
     {
         // initialise instance variables
         super(KN, K);
+    }
+    
+    public void storeElement(BitSet element)
+    {
+        //Check all memory
+        //if element exists in cache: hit do nothing
+        //else check for opening
+            //if opening store element
+            //else look for last used and replace
+    }
+    
+    public void resetRatios()
+    {
+        super.resetRatios();
     }
 }

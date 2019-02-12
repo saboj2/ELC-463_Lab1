@@ -1,3 +1,6 @@
+import java.util.List;
+import java.util.ArrayList;
+import java.util.BitSet;
 
 /**
  * Write a description of class TestClass here.
@@ -8,47 +11,100 @@
 public class TestClass
 {
     // instance variables - replace the example below with your own
-    private int x;
+    private static List<LRUCache> LRUTests;
+    private static List<FIFOCache> FIFOTests;
+    
+    private static BitSet trace1Set;
+    private static BitSet trace2Set;
+    
+    private static DataHandler mem1;
+    private static DataHandler mem2;
 
     /**
      * Constructor for objects of class TestClass
      */
-    public TestClass()
+    public static void main(String[]args)
     {
-        LRUCache lru1 = new LRUCache(64, 2);
-        LRUCache lru2 = new LRUCache(64, 4);
-        LRUCache lru3 = new LRUCache(64, 8);
-        LRUCache lru4 = new LRUCache(64, 16);
-        LRUCache lru5 = new LRUCache(256, 2);
-        LRUCache lru6 = new LRUCache(256, 4);
-        LRUCache lru7 = new LRUCache(256, 8);
-        LRUCache lru8 = new LRUCache(256, 16);
-        FIFOCache fifo1 = new FIFOCache(64, 2);
-        FIFOCache fifo2 = new FIFOCache(64, 4);
-        FIFOCache fifo3 = new FIFOCache(64, 8);
-        FIFOCache fifo4 = new FIFOCache(64, 16);
-        FIFOCache fifo5 = new FIFOCache(256, 2);
-        FIFOCache fifo6 = new FIFOCache(256, 4);
-        FIFOCache fifo7 = new FIFOCache(256, 8);
-        FIFOCache fifo8 = new FIFOCache(256, 16);
+        LRUTests.add(new LRUCache(64, 2));
+        LRUTests.add(new LRUCache(64, 4));
+        LRUTests.add(new LRUCache(64, 8));
+        LRUTests.add(new LRUCache(64, 16));
+        LRUTests.add(new LRUCache(256, 2));
+        LRUTests.add(new LRUCache(256, 4));
+        LRUTests.add(new LRUCache(256, 8));
+        LRUTests.add(new LRUCache(256, 16));
+        FIFOTests.add(new FIFOCache(64, 2));
+        FIFOTests.add(new FIFOCache(64, 4));
+        FIFOTests.add(new FIFOCache(64, 8));
+        FIFOTests.add(new FIFOCache(64, 16));
+        FIFOTests.add(new FIFOCache(256, 2));
+        FIFOTests.add(new FIFOCache(256, 4));
+        FIFOTests.add(new FIFOCache(256, 8));
+        FIFOTests.add(new FIFOCache(256, 16));
         
         //Path to trace files
         String trace1 = "C:\\Users\\babeh_000\\Desktop\\TCNJ\\Senior\\2nd Semester\\CE2\\Trace1.DAT";
         String trace2 = "C:\\Users\\babeh_000\\Desktop\\TCNJ\\Senior\\2nd Semester\\CE2\\Trace1.DAT";
         
-        DatHandler mem1 = new DatHandler(trace1);
-        DatHandler mem2 = new DatHandler(trace2);
+        mem1 = new DataHandler(trace1);
+        mem2 = new DataHandler(trace2);
+        mem1.printList();
+        mem2.printList();
+        performTest();
     }
-
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
+    
+    /*
+     * This method performs handles the execution of the tests
      */
-    public int sampleMethod(int y)
+    private static void performTest()
     {
-        // put your code here
-        return x + y;
+        for(int i = 0; i < 2; i++)
+        {
+            for(int j = 0; j < FIFOTests.size(); j++)
+            {
+                if(i ==0)
+                {
+                    storeMemory(LRUTests.get(j), mem1);
+                    handleResults(LRUTests.get(j));
+                    storeMemory(LRUTests.get(j), mem2);
+                    handleResults(LRUTests.get(j));
+                }
+                else
+                {
+                    //FIFO
+                    storeMemory(FIFOTests.get(j), mem1);
+                    handleResults(FIFOTests.get(j));
+                    storeMemory(FIFOTests.get(j), mem2);
+                    handleResults(FIFOTests.get(j));
+                }
+            }
+        }
+    }
+    
+    private static void storeMemory(LRUCache cache, DataHandler mem)
+    {
+        //Handels LRU Cache
+        cache.resetRatios();
+        List<byte[]> addressList = mem.getAddressList();
+        for(byte[] address: addressList)
+        {
+            BitSet bitString = BitSet.valueOf(address);
+            cache.storeElement(bitString);
+        }
+    }
+    
+    private static void storeMemory(FIFOCache cache, DataHandler mem)
+    {
+        //Handels FIFO Cache
+    }
+    
+    private static void handleResults(LRUCache cache)
+    {
+        //Handles LRU results
+    }
+    
+    private static void handleResults(FIFOCache cache)
+    {
+        //Handles FIFO results
     }
 }

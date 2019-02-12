@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.BitSet;
 /**
  * Write a description of class Cache here.
  *
@@ -17,16 +18,21 @@ public class Cache
      */
     public Cache(int KN, int K)
     {
+        //N = KN/K is Number of sets
+        //K is number of rows
+        
         // initialise these maps
         rows = new HashMap(K);
         cache = new HashMap(KN/K);
         
         //TODO: math later to find size
-        int setLength = 0, indexLength = 0, tagLength = 0;
-        byte[] byteAddress = new byte[indexLength];
-        byte[] setAddress = new byte[setLength];
-        CacheValues cacheValue;
+        final int  addressLength = 24;
         
+        int setLength = KN/K/2, indexLength = K/2, tagLength = 0;
+        BitSet byteAddress = new BitSet(indexLength);
+        BitSet setAddress = new BitSet(setLength);
+        CacheValues cacheValue;
+         
         //Populate Rows with 
         for(int j = 0; j < KN/K; j++)
         {
@@ -39,5 +45,11 @@ public class Cache
             }
             cache.put(setAddress, rows);
         }
+    }
+    
+    public void resetRatios()
+    {
+        //Set all H's to misses and,
+        //set number of hits to 0, number of misses to 0
     }
 }

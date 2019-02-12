@@ -1,4 +1,4 @@
-
+import java.util.BitSet;
 /**
  * Write a description of class CacheValues here.
  *
@@ -8,7 +8,7 @@
 public class CacheValues
 {
     // instance variables - replace the example below with your own
-    private byte[] tag;
+    private BitSet tag;
     private int valid;
 
     /**
@@ -17,7 +17,7 @@ public class CacheValues
     public CacheValues(int K)
     {
         // initialise instance variables
-        tag = new byte[K];
+        tag = new BitSet(K);
         valid = 0;
     }
     
@@ -26,7 +26,7 @@ public class CacheValues
         return valid;
     }
     
-    public byte[] getTag()
+    public BitSet getTag()
     {
         return tag;
     }
@@ -36,7 +36,7 @@ public class CacheValues
         valid = val;
     }
     
-    public void setTag(byte[] val)
+    public void setTag(BitSet val)
     {
         tag = val;
     }
