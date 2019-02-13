@@ -21,11 +21,12 @@ public class LRUCache extends Cache
     
     public void storeElement(BitSet element)
     {
-        //Check all memory
-        //if element exists in cache: hit do nothing
-        //else check for opening
-            //if opening store element
-            //else look for last used and replace
+        // Break up element maybe?
+        // Check all memory
+        // if element exists in cache: hit do nothing
+        // else check for opening
+            // if opening store element
+            // else look for last used and replace
     }
     
     public void resetRatios()
