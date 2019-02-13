@@ -3,20 +3,23 @@ import java.util.ArrayList;
 import java.util.BitSet;
 
 /**
- * Write a description of class TestClass here.
+ * This class is used to run the different test cases
  *
  * @author (your name)
  * @version (a version number or a date)
  */
 public class TestClass
 {
-    // instance variables - replace the example below with your own
+    // Lists for the different types of tests
+    // We want to run 8 tests per each which is why I used a list
     private static List<LRUCache> LRUTests;
     private static List<FIFOCache> FIFOTests;
     
+    //These might not be used
     private static BitSet trace1Set;
     private static BitSet trace2Set;
     
+    // These classes are used to wrap the traces in an object
     private static DataHandler mem1;
     private static DataHandler mem2;
 
@@ -25,6 +28,7 @@ public class TestClass
      */
     public static void main(String[]args)
     {
+        //Add the different tests to be performed
         LRUTests.add(new LRUCache(64, 2));
         LRUTests.add(new LRUCache(64, 4));
         LRUTests.add(new LRUCache(64, 8));
@@ -46,34 +50,45 @@ public class TestClass
         String trace1 = "C:\\Users\\babeh_000\\Desktop\\TCNJ\\Senior\\2nd Semester\\CE2\\Trace1.DAT";
         String trace2 = "C:\\Users\\babeh_000\\Desktop\\TCNJ\\Senior\\2nd Semester\\CE2\\Trace1.DAT";
         
+        //Get store the trace files in memory and print the lists
         mem1 = new DataHandler(trace1);
         mem2 = new DataHandler(trace2);
         mem1.printList();
         mem2.printList();
+
+        // TODO: Maybe pass the lists? 
+        // Anyway this is method is used to perform the tests
         performTest();
     }
     
     /*
-     * This method performs handles the execution of the tests
+     * This method is used for the logic of test and result execution
      */
     private static void performTest()
     {
+        // Outer loop is for the different tyes of cahce
+        // Inner loop is for the different tests
         for(int i = 0; i < 2; i++)
         {
             for(int j = 0; j < FIFOTests.size(); j++)
             {
                 if(i ==0)
                 {
+                    // LRU Cache case
+                    // Perform test on trace 1, then do some cool result stuff
                     storeMemory(LRUTests.get(j), mem1);
                     handleResults(LRUTests.get(j));
+
+                    // Same as above but for trace 2
                     storeMemory(LRUTests.get(j), mem2);
                     handleResults(LRUTests.get(j));
                 }
                 else
                 {
-                    //FIFO
+                    //FIFO- Same implementation as above
                     storeMemory(FIFOTests.get(j), mem1);
                     handleResults(FIFOTests.get(j));
+
                     storeMemory(FIFOTests.get(j), mem2);
                     handleResults(FIFOTests.get(j));
                 }
@@ -81,6 +96,9 @@ public class TestClass
         }
     }
     
+    /*
+     * 
+     */
     private static void storeMemory(LRUCache cache, DataHandler mem)
     {
         //Handels LRU Cache
@@ -101,6 +119,12 @@ public class TestClass
     private static void handleResults(LRUCache cache)
     {
         //Handles LRU results
+        Reslults results = cache.getResults();
+        int misses = results.getMisses();
+        int hits = results.getHits();
+        int total = hits + misses;
+        double hitRatio = results.getHitRatio();
+        double missRatio = resutls.getMissRatio();
     }
     
     private static void handleResults(FIFOCache cache)

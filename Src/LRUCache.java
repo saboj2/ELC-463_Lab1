@@ -21,14 +21,22 @@ public class LRUCache extends Cache
     //maybe move this to cache.java, it is probably common between both lru and fifo
     public void storeElement(BitSet element)
     {
-        //Check all memory
-        
-        //if element exists in cache: hit do nothing
-        //else check for opening
-            //if opening store element
-            //else look for last used and replace
 
-        //return hit or miss and keep track in test?
+        // Break up element maybe?
+        // Check all memory
+        // if element exists in cache: hit do nothing
+            //numRatio++;
+        // else check for opening
+            //numMisses++;
+            // if opening store element
+            // else look for last used and replace
+    }
+
+    public results getResults()
+    {
+        //return new Results(super.getHits(), super.getMisses());
+        return new Results(54000, 6000);
+
     }
     
     public void resetRatios()
