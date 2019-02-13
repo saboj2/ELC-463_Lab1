@@ -119,6 +119,12 @@ public class TestClass
     private static void handleResults(LRUCache cache)
     {
         //Handles LRU results
+        Reslults results = cache.getResults();
+        int misses = results.getMisses();
+        int hits = results.getHits();
+        int total = hits + misses;
+        double hitRatio = results.getHitRatio();
+        double missRatio = resutls.getMissRatio();
     }
     
     private static void handleResults(FIFOCache cache)
