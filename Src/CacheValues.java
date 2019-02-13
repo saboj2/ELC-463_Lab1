@@ -10,6 +10,7 @@ public class CacheValues
     // instance variables - replace the example below with your own
     private BitSet tag;
     private int valid;
+    private int lastUsed; //while looping through each address hit, store iterate as reference for LRU/FIFO
 
     /**
      * Constructor for objects of class CacheValues
@@ -19,6 +20,7 @@ public class CacheValues
         // initialise instance variables
         tag = new BitSet(K);
         valid = 0;
+        lastUsed = 0;
     }
     
     public int getValid()
@@ -30,6 +32,11 @@ public class CacheValues
     {
         return tag;
     }
+
+    public int getLastUsed()
+    {
+        return lastUsed;
+    }
     
     public void setValid(int val)
     {
@@ -39,6 +46,11 @@ public class CacheValues
     public void setTag(BitSet val)
     {
         tag = val;
+    }
+
+    public void setLastUsed(int i)
+    {
+        lastUsed = i;
     }
     
     public void printValues()

@@ -18,14 +18,17 @@ public class LRUCache extends Cache
         // initialise instance variables
         super(KN, K);
     }
-    
+    //maybe move this to cache.java, it is probably common between both lru and fifo
     public void storeElement(BitSet element)
     {
         //Check all memory
+        
         //if element exists in cache: hit do nothing
         //else check for opening
             //if opening store element
             //else look for last used and replace
+
+        //return hit or miss and keep track in test?
     }
     
     public void resetRatios()
