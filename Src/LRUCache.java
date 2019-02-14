@@ -18,10 +18,22 @@ public class LRUCache extends Cache
         // initialise instance variables
         super(KN, K);
     }
-    
+    //maybe move this to cache.java, it is probably common between both lru and fifo
     public void storeElement(BitSet element)
     {
+
         // Break up element maybe?
+        BitSet tag = element.get(0,super.taglenth); 
+        super.index = element.get(super.tagLength+1,element.length() - 3);
+        if(this.get(index).contains(tag) == 1)
+        {
+            super.hits++;
+        }
+        else
+        {
+            super.misses++;
+            
+        }
         // Check all memory
         // if element exists in cache: hit do nothing
             //numRatio++;
@@ -35,6 +47,7 @@ public class LRUCache extends Cache
     {
         //return new Results(super.getHits(), super.getMisses());
         return new Results(54000, 6000);
+
     }
     
     public void resetRatios()

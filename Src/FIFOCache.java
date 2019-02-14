@@ -17,4 +17,6 @@ public class FIFOCache extends Cache
         // initialise instance variables
         super(KN, K);
     }
+
+    
 }

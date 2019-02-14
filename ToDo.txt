@@ -3,3 +3,9 @@ Jeff,
 Lets finish LRU cache first and then do fifo
 
 I started some logic in LRU class
+
+Some notes:
+
+numbers of lines per set = k way associative 
+so first example has 32 sets, 2 way associative.
+then 16 sets 4 way associativekaa
