@@ -4,7 +4,8 @@ public class Results
     public int misses;
     public double hitRatio;
     public double missRatio;
-    public results(int h, int m)
+    
+    public Results(int h, int m)
     {
         hits = h;
         misses = m;
@@ -14,49 +15,49 @@ public class Results
 
     public int getHits()
     {
-        return hits;
+        return this.hits;
     }
 
     public int getMisses()
     {
-        return misses;
+        return this.misses;
     }
 
     public double getHitRatio()
     {
-        return hitRatio;
+        return this.hitRatio;
     }
 
     public double getMissRatio()
     {
-        return missRatio;
+        return this.missRatio;
     }
 
     public void updateHits(int h)
     {
-        hits = h;
+        this.hits = h;
     }
 
     public void updateMisses(int m)
     {
-        misses = m;
+        this.misses = m;
     }
 
     public void updateHitRatio()
     {
-        hitRatio = hits/(hit + misses);
+        this.hitRatio = this.hits/(this.hits + this.misses);
     }
 
-    public void updateHitRatio()
+    public void updateMissRatio()
     {
-        missRatio = misses/(hit + misses);
+        this.missRatio = this.misses/(this.hits + this.misses);
     }
 
     public void updateAll(int h, int m)
     {
-        hits = h;
-        misses = m;
-        hitRatio = h/(h+m);
-        missRatio = m/(h+m);
+        this.hits = h;
+        this.misses = m;
+        this.hitRatio = h/(h+m);
+        this.missRatio = m/(h+m);
     }
 }

@@ -23,9 +23,11 @@ public class LRUCache extends Cache
     {
 
         // Break up element maybe?
-        BitSet tag = element.get(0,super.taglenth); 
-        super.index = element.get(super.tagLength+1,element.length() - 3);
-        if(this.get(index).contains(tag) == 1)
+        BitSet tag = element.get(0, super.tagLength); 
+        BitSet index = element.get(tagLength+1,element.length() - 3);
+
+        //Use method below, it might be cleaner than tryng to fit in an if statement
+        if(checkExists(tag, index))
         {
             super.hits++;
         }
@@ -43,7 +45,17 @@ public class LRUCache extends Cache
             // else look for last used and replace
     }
 
-    public results getResults()
+    // So we have the index and tag above, now we want to check lines for the index and tag
+    // Lines is the cache, it is a hashmap of BitSets and CacheValues.
+    // CacheValues is and object of the BitSet and H/M
+    private boolean checkExists(BitSet tag, BitSet index)
+    {
+        //super.lines.get(index).contains(tag).getTag()
+        boolean res = false;
+        return res;
+    }
+
+    public Results getResults()
     {
         //return new Results(super.getHits(), super.getMisses());
         return new Results(54000, 6000);

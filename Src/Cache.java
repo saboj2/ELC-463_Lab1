@@ -1,20 +1,17 @@
 import java.util.HashMap;
 import java.util.BitSet;
-import java.util.Math;
-/**
- * Write a description of class Cache here.
- *
- * @author (your name)
- * @version (a version number or a date)
- */
+import java.lang.Math;
+
 public class Cache
 {
-    // instance variables - replace the example below with your own
     //Maybe these are what we are looking for, but maybe not...
-    private HashMap lines;       //Map byte index to CacheValue Object, more important to get working than sets
-    private HashMap cache;      //Map Set to Rows?
-    private int hits;
-    private int misses;
+    protected HashMap lines;       //Map byte index to CacheValue Object, more important to get working than sets
+    protected HashMap cache;      //Map Set to Rows?
+    protected int hits;         // Because these are inherited they need to be protected not private
+    protected int misses;       // Because these are inherited they need to be protected not private
+    protected int tagLength; 
+    protected int indexLength;
+    protected BitSet index;
 
     /**
      * Constructor for objects of class Cache
@@ -31,8 +28,10 @@ public class Cache
         
         //TODO: math later to find size
         final int  addressLength = 24;
-        
-        int numOfSets = logBase2(KN/K), numOfLines = logBase2(K), tagLength = addressLength - indexlength - 3; //3 for offset, 8 address loaded in
+        indexLength = 0; //TODO: Must fix this for bellow
+        tagLength = addressLength - indexLength - 3; //3 for offset, 8 address loaded in
+
+        int numOfSets = logBase2(KN/K), numOfLines = logBase2(K); 
         //maybe not use bit sets? cant do nice math on them. Maybe only for dividing up the bits into tag,etc
         BitSet index = new BitSet(numOfSets);
         BitSet lineNum = new BitSet(numOfLines);
@@ -64,12 +63,12 @@ public class Cache
         return this.misses;
     }
 
-    public void setHits(hits)
+    public void setHits(int hits)
     {
         this.hits = hits;
     }
 
-    public void setMisses(misses)
+    public void setMisses(int misses)
     {
         this.misses = misses;
     }
@@ -85,7 +84,7 @@ public class Cache
     public int logBase2(int val)
     {
         int bits = 0;
-        while (val >>= 1)
+        while (val >= 1)
         {
             bits++;
         }
@@ -97,7 +96,15 @@ public class Cache
         int result = 0;
         for(int i = 0; i < binSet.length(); i++)
         {
-            result += binSet.get(i) * Math.pow(2,binSet.length()-i)
+            // So apparently this is an array of booleans
+            // Good to know but the val update is necessary
+            int val = 0;
+            if(binSet.get(i))
+            {
+                val = 1;
+            }
+
+            result += val * Math.pow(2,(binSet.length()-i));
         }
         return result;
     }

@@ -119,14 +119,14 @@ public class TestClass
     private static void handleResults(LRUCache cache)
     {
         //Get LRU results
-        Reslults results = cache.getResults();
+        Results results = cache.getResults();
         int misses = results.getMisses();
         int hits = results.getHits();
         int total = hits + misses;
         double hitRatio = results.getHitRatio();
-        double missRatio = resutls.getMissRatio();
+        double missRatio = results.getMissRatio();
 
-
+        Pie pieChart = new Pie(hits, misses);
     }
     
     private static void handleResults(FIFOCache cache)
