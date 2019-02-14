@@ -11,7 +11,7 @@ public class Cache
 {
     // instance variables - replace the example below with your own
     //Maybe these are what we are looking for, but maybe not...
-    private HashMap rows;       //Map byte index to CacheValue Object, more important to get working than sets
+    private HashMap lines;       //Map byte index to CacheValue Object, more important to get working than sets
     private HashMap cache;      //Map Set to Rows?
     private int hits;
     private int misses;
@@ -120,3 +120,8 @@ public class Cache
         return result;
     }
 }
+/*
+    _____________________________________________________________________________
+   |                                   taglength | taglength + 1-addresslenth-4 | 3bits offset  |
+    _____________________________________________________________________________     
+*/  
