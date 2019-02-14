@@ -5,7 +5,7 @@ import java.lang.Math;
 public class Cache
 {
     //Maybe these are what we are looking for, but maybe not...
-    protected HashMap lines;       //Map byte index to CacheValue Object, more important to get working than sets
+    protected HashMap line;       //Map byte index to CacheValue Object, more important to get working than sets
     protected HashMap cache;      //Map Set to Rows?
     protected int hits;         // Because these are inherited they need to be protected not private
     protected int misses;       // Because these are inherited they need to be protected not private
@@ -23,8 +23,7 @@ public class Cache
         
         // initialise these maps
         //might want to rename rows
-        HashMap lines = new HashMap(K);
-        HashMap cache = new HashMap(KN/K);
+        cache = new HashMap<BitSet, HashMap<BitSet, CacheValues>>(KN/K);
         
         //TODO: math later to find size
         final int  addressLength = 24;
@@ -33,24 +32,35 @@ public class Cache
 
         int numOfSets = logBase2(KN/K), numOfLines = logBase2(K); 
         //maybe not use bit sets? cant do nice math on them. Maybe only for dividing up the bits into tag,etc
-        BitSet index = new BitSet(numOfSets);
+        System.out.println(numOfSets);
+        System.out.println(numOfLines);
+        index = new BitSet(numOfSets);
         BitSet lineNum = new BitSet(numOfLines);
         CacheValues cacheValue;
          
         //Populate Rows with 
         for(int j = 0; j < KN/K; j++)
         {
-            lines.clear(); // problems with using the same object?
+            line = new HashMap(K); // problems with using the same object?
             for(int i = 0; i < K; i++)
             {
                 lineNum = inttoBitSet(i,numOfLines);
 
+                System.out.println(toHexString(lineNum.toByteArray()));
                 cacheValue = new CacheValues(tagLength);
-                lines.put(lineNum, cacheValue); //add line to set
+                line.put(lineNum, cacheValue); //add line to set
             }
             index = inttoBitSet(j,numOfSets);
-            cache.put(index, lines); // add set to cache
+            System.out.println("Adding the line and index value");
+            cache.put(index, line); // add set to cache
+            System.out.println("Added");
         }
+        // TODO: We need to fix the line storing because we are storing nulls
+        for(BitSet index:cache.keySet())
+        {
+            System.out.println(bitSettoInt(index));
+        }
+        System.out.println("Finished");
     }
     
     public int getHits()
@@ -84,16 +94,26 @@ public class Cache
     public int logBase2(int val)
     {
         int bits = 1;
-        if(val == 0)
+        while (val > 1)
         {
-            bits = 0;
-        }
-        while (val > 0)
-        {
-            bits*=2;
-            val--;
+            bits++;
+            val/=2;
         }
         return bits;
+    }
+
+    public String toHexString(byte[] bytes) {
+        StringBuilder hexString = new StringBuilder();
+    
+        for (int i = 0; i < bytes.length; i++) {
+            String hex = Integer.toHexString(0xFF & bytes[i]);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+    
+        return hexString.toString();
     }
     
     public static int bitSettoInt(BitSet binSet)
@@ -109,23 +129,25 @@ public class Cache
                 val = 1;
             }
 
-            result += val * Math.pow(2,(binSet.length()-i));
+            result += val * Math.pow(2,(binSet.length()-i-1));
         }
         return result;
     }
 
+    /*
+     * This method is used to create the different index keys for the hasmap
+     * It takes the row num asnum and the amount of rows as length
+     * The return is the BitSet of what the number should be
+     */
     public static BitSet inttoBitSet(int num, int length) 
     {
-        BitSet result = new BitSet();
-        for(int i = 0; i < length; i++)
+        BitSet result = new BitSet(length);
+        for(int i = 1; i < length; i++)
         {
-            if(num % 2 == 0)
+            // Based on docs, we only need to do set on vals that are 1!
+            if(num % 2 != 0)
             {
-                result.set(length - i,0);
-            }
-            else
-            {
-                result.set(length - i,1);
+                result.set(length - i);
             }
             num = num / 2;
         }
