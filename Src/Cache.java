@@ -52,14 +52,15 @@ public class Cache
             }
             index = inttoBitSet(j,numOfSets);
             System.out.println("Adding the line and index value");
+            System.out.println(bitSettoInt(index));
             cache.put(index, line); // add set to cache
-            System.out.println("Added");
+            System.out.println("Added\n");
         }
         // TODO: We need to fix the line storing because we are storing nulls
-        for(BitSet index:cache.keySet())
+        /*for(BitSet index:cache.keySet())
         {
             System.out.println(bitSettoInt(index));
-        }
+        }*/
         System.out.println("Finished");
     }
     
