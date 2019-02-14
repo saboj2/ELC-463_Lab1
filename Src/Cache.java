@@ -83,10 +83,15 @@ public class Cache
 
     public int logBase2(int val)
     {
-        int bits = 0;
-        while (val >= 1)
+        int bits = 1;
+        if(val == 0)
         {
-            bits++;
+            bits = 0;
+        }
+        while (val > 0)
+        {
+            bits*=2;
+            val--;
         }
         return bits;
     }
