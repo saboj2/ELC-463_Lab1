@@ -29,32 +29,33 @@ public class TestClass
     public static void main(String[]args)
     {
         //Add the different tests to be performed
+        System.out.println("Creating different caches");
         LRUTests.add(new LRUCache(64, 2));
         LRUTests.add(new LRUCache(64, 4));
         LRUTests.add(new LRUCache(64, 8));
         LRUTests.add(new LRUCache(64, 16));
-        LRUTests.add(new LRUCache(256, 2));
-        LRUTests.add(new LRUCache(256, 4));
-        LRUTests.add(new LRUCache(256, 8));
-        LRUTests.add(new LRUCache(256, 16));
-        FIFOTests.add(new FIFOCache(64, 2));
-        FIFOTests.add(new FIFOCache(64, 4));
-        FIFOTests.add(new FIFOCache(64, 8));
-        FIFOTests.add(new FIFOCache(64, 16));
-        FIFOTests.add(new FIFOCache(256, 2));
-        FIFOTests.add(new FIFOCache(256, 4));
-        FIFOTests.add(new FIFOCache(256, 8));
-        FIFOTests.add(new FIFOCache(256, 16));
-        
+        //LRUTests.add(new LRUCache(256, 2));
+        //LRUTests.add(new LRUCache(256, 4));
+        //LRUTests.add(new LRUCache(256, 8));
+        //LRUTests.add(new LRUCache(256, 16));
+        //FIFOTests.add(new FIFOCache(64, 2));
+        //FIFOTests.add(new FIFOCache(64, 4));
+        //FIFOTests.add(new FIFOCache(64, 8));
+        //FIFOTests.add(new FIFOCache(64, 16));
+        //FIFOTests.add(new FIFOCache(256, 2));
+        //FIFOTests.add(new FIFOCache(256, 4));
+        //FIFOTests.add(new FIFOCache(256, 8));
+        //FIFOTests.add(new FIFOCache(256, 16));
+        System.out.println("Finished!");
         //Path to trace files
         String trace1 = "C:\\Users\\babeh_000\\Desktop\\TCNJ\\Senior\\2nd Semester\\CE2\\Trace1.DAT";
         String trace2 = "C:\\Users\\babeh_000\\Desktop\\TCNJ\\Senior\\2nd Semester\\CE2\\Trace1.DAT";
         
         //Get store the trace files in memory and print the lists
+        System.out.println("Importing trace files");
         mem1 = new DataHandler(trace1);
         mem2 = new DataHandler(trace2);
-        mem1.printList();
-        mem2.printList();
+        System.out.println("Finished!");
 
         // TODO: Maybe pass the lists? 
         // Anyway this is method is used to perform the tests
@@ -76,21 +77,24 @@ public class TestClass
                 {
                     // LRU Cache case
                     // Perform test on trace 1, then do some cool result stuff
+                    System.out.println("On tesst: " + (j+1));
                     storeMemory(LRUTests.get(j), mem1);
+
+                    System.out.println("Printing pie chart");
                     handleResults(LRUTests.get(j));
 
                     // Same as above but for trace 2
-                    storeMemory(LRUTests.get(j), mem2);
-                    handleResults(LRUTests.get(j));
+                    //storeMemory(LRUTests.get(j), mem2);
+                    //handleResults(LRUTests.get(j));
                 }
                 else
                 {
                     //FIFO- Same implementation as above
-                    storeMemory(FIFOTests.get(j), mem1);
+                    /*storeMemory(FIFOTests.get(j), mem1);
                     handleResults(FIFOTests.get(j));
 
                     storeMemory(FIFOTests.get(j), mem2);
-                    handleResults(FIFOTests.get(j));
+                    handleResults(FIFOTests.get(j));*/
                 }
             }
         }
