@@ -1,4 +1,5 @@
 import java.util.BitSet;
+import java.util.HashMap;
 /**
  * Write a description of class LRUCache here.
  *
@@ -28,7 +29,7 @@ public class LRUCache extends Cache
         System.out.println(super.toHexString(element.toByteArray()));
         System.out.println("Element length: " + element.length());
         System.out.println("Tag length: " + super.tagLength);
-        System.out.println("Index length: " + super.indexLength);
+        System.out.println("Index length: " + super.numOfSets);
         BitSet tag = element.get(0, super.tagLength); 
         BitSet index = element.get(tagLength,element.length() - 3);
 
@@ -36,39 +37,39 @@ public class LRUCache extends Cache
         if(checkExists(tag, index))
         {
             super.hits++;
-            super.cache.get(index).get(getLineNumforTag(tag, index)).setLastUsed(request); //don't do this in FIFO
+            this.cache.get(index).get(getLineNumforTag(tag, index)).setLastUsed(request); //don't do this in FIFO
             return;
         }
         else
         {
-            int LRUEntry =  super.cache.get(index).get(super.inttoBitSet(0,super.numOfLines).getLastUsed());
-            BitSet LRUlineNum;
+            int LRUEntry =  this.cache.get(index).get(super.inttoBitSet(0,super.numOfLines)).getLastUsed();
+            BitSet LRUlineNum = new BitSet();
             super.misses++;
             //go through each line of the set
             int i;
             for(i = 0; i < this.k; i++)
             {
                 //if current line valid bit is zero, then store current cachevalue in current line
-                if(!super.cache.get(index).get(super.inttoBitSet(i,super.numOfLines)).getValid())
+                if(super.cache.get(index).get(super.inttoBitSet(i,super.numOfLines)).getValid() == 0)
                 {
-                    super.cache.get(index).get(super.inttoBitSet(i,super.numOfLines)).setLastUsed(request);
-                    super.cache.get(index).get(super.inttoBitSet(i,super.numOfLines)).setTag(tag);
-                    super.cache.get(index).get(super.inttoBitSet(i,super.numOfLines)).setValid(1);
+                    this.cache.get(index).get(super.inttoBitSet(i,super.numOfLines)).setLastUsed(request);
+                    this.cache.get(index).get(super.inttoBitSet(i,super.numOfLines)).setTag(tag);
+                    this.cache.get(index).get(super.inttoBitSet(i,super.numOfLines)).setValid(1);
                     return;
                 }
                 //else save the last recently used line
                 else
                 {
-                    if(LRUEntry > super.cache.get(index).get(super.inttoBitSet(0,super.numOfLines).getLastUsed()))
+                    if(LRUEntry > this.cache.get(index).get(super.inttoBitSet(0,super.numOfLines)).getLastUsed())
                     {
                         LRUlineNum = super.inttoBitSet(i,super.numOfLines);
                     }
                 }
             }
             //Store the data in the last recently used line
-            super.cache.get(index).get(LRUlineNum).setLastUsed(request);
-            super.cache.get(index).get(LRUlineNum).setTag(tag);
-            super.cache.get(index).get(LRUlineNum).setValid(1);
+            this.cache.get(index).get(LRUlineNum).setLastUsed(request);
+            this.cache.get(index).get(LRUlineNum).setTag(tag);
+            this.cache.get(index).get(LRUlineNum).setValid(1);
             return;
         }
         // Check all memory
@@ -98,14 +99,17 @@ public class LRUCache extends Cache
 
     private BitSet getLineNumforTag(BitSet tag, BitSet index)
     {
+        BitSet result = new BitSet();
         for(BitSet lineNum: cache.get(index).keySet())
         {
             if(this.cache.get(index).get(lineNum).getTag() == tag)
             {
-                return lineNum;
+                result = lineNum;
+                break;
             }
+            
         }
-        return NULL;
+        return result;
     }
 
     public int getTagLength()
@@ -115,7 +119,7 @@ public class LRUCache extends Cache
 
     public int getIndexLength()
     {
-        return super.indexLength;
+        return super.numOfSets;
     }
 
     public Results getResults()

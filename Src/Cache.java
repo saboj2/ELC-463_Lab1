@@ -5,8 +5,8 @@ import java.lang.Math;
 public class Cache
 {
     //Maybe these are what we are looking for, but maybe not...
-    protected HashMap line;       //Map byte index to CacheValue Object, more important to get working than sets
-    protected HashMap cache;      //Map Set to Rows?
+    protected HashMap<BitSet, CacheValues> line;       //Map byte index to CacheValue Object, more important to get working than sets
+    protected HashMap<BitSet, HashMap<BitSet, CacheValues>> cache;      //Map Set to Rows?
     protected int hits;         // Because these are inherited they need to be protected not private
     protected int misses;       // Because these are inherited they need to be protected not private
     protected int tagLength; 
@@ -26,7 +26,7 @@ public class Cache
         
         // initialise these maps
         //might want to rename rows
-        cache = new HashMap<BitSet, HashMap<BitSet, CacheValues>>(KN/K);
+        this.cache = new HashMap<BitSet, HashMap<BitSet, CacheValues>>(KN/K);
         
         //TODO: math later to find size
         final int  addressLength = 24;
@@ -48,20 +48,10 @@ public class Cache
             for(int i = 0; i < K; ++i)
             {
                 lineNum = inttoBitSet(i,numOfLines);
-<<<<<<< HEAD
-
-                System.out.println(lineNum);
-=======
->>>>>>> f1eaf20affdb7262e3ae3874f4cb018965fc8fcc
                 cacheValue = new CacheValues(tagLength);
                 line.put(lineNum, cacheValue); //add line to set
             }
             index = inttoBitSet(j,numOfSets);
-<<<<<<< HEAD
-            System.out.println("Adding the lines " + ", to index " + index);
-        
-=======
->>>>>>> f1eaf20affdb7262e3ae3874f4cb018965fc8fcc
             cache.put(index, line); // add set to cache
         }
         // TODO: We need to fix the line storing because we are storing nulls
