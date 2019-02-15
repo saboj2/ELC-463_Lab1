@@ -23,8 +23,13 @@ public class LRUCache extends Cache
     {
 
         // Break up element maybe?
+        // .get(a, b) a is inclusive, b is exclusive
+        System.out.println(super.toHexString(element.toByteArray()));
+        System.out.println("Element length: " + element.length());
+        System.out.println("Tag length: " + super.tagLength);
+        System.out.println("Index length: " + super.indexLength);
         BitSet tag = element.get(0, super.tagLength); 
-        BitSet index = element.get(tagLength+1,element.length() - 3);
+        BitSet index = element.get(tagLength,element.length() - 3);
 
         //Use method below, it might be cleaner than tryng to fit in an if statement
         if(checkExists(tag, index))
@@ -60,6 +65,11 @@ public class LRUCache extends Cache
         return super.tagLength;
     }
 
+    public int getIndexLength()
+    {
+        return super.indexLength;
+    }
+
     public Results getResults()
     {
         //return new Results(super.getHits(), super.getMisses());
@@ -70,5 +80,14 @@ public class LRUCache extends Cache
     public void resetRatios()
     {
         super.resetRatios();
+    }
+
+    public String toString()
+    {
+        String str = "Tag Size: " + this.getTagLength() + 
+                    "\nIndex Size: " + this.getIndexLength() +
+                    "\nHit: " + super.getHits() +
+                    "\nMisses: " + super.getMisses();
+        return str;
     }
 }

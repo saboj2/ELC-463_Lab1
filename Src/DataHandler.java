@@ -117,7 +117,7 @@ public class DataHandler
     {
         
         System.out.println("Printing " + n + " addresses");
-        for(int i = 1; i < n - 1; i+=3)
+        /*for(int i = 1; i < n - 1; i+=3)
         {
             if(i + 1 < n)
             {
@@ -131,8 +131,12 @@ public class DataHandler
             {
                 System.out.println(toHexString(death.get(i-1)));
             }
+        }*/
+        for(int i = 0; i <death.size()/1000; i++)
+        {
+            System.out.print(toHexString(death.get(i)) + ", ");
         }
-        System.out.println("End of list");
+        System.out.println("\nEnd of list");
     }
     
     public void printList()
