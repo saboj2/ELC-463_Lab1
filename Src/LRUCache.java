@@ -28,6 +28,18 @@ public class LRUCache extends Cache
         System.out.println("Element length: " + element.length());
         System.out.println("Tag length: " + super.tagLength);
         System.out.println("Index length: " + super.indexLength);
+        BitSet newElement = new BitSet(super.indexLength + super.tagLength);
+        if(element.length() != super.tagLength + 3)
+        {
+            for(int i = 0; i < (element.length()-1); i++ )
+            {
+                if(element.get(i))
+                {
+                    newElement.set(i+element.length()-(super.indexLength + super.tagLength));
+                }
+            }
+        }
+        System.out.println(super.toHexString(newElement.toByteArray()));
         BitSet tag = element.get(0, super.tagLength); 
         BitSet index = element.get(tagLength,element.length() - 3);
 
