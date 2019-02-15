@@ -48,20 +48,10 @@ public class Cache
             for(int i = 0; i < K; ++i)
             {
                 lineNum = inttoBitSet(i,numOfLines);
-<<<<<<< HEAD
-
-                System.out.println(lineNum);
-=======
->>>>>>> f1eaf20affdb7262e3ae3874f4cb018965fc8fcc
                 cacheValue = new CacheValues(tagLength);
                 line.put(lineNum, cacheValue); //add line to set
             }
             index = inttoBitSet(j,numOfSets);
-<<<<<<< HEAD
-            System.out.println("Adding the lines " + ", to index " + index);
-        
-=======
->>>>>>> f1eaf20affdb7262e3ae3874f4cb018965fc8fcc
             cache.put(index, line); // add set to cache
         }
         // TODO: We need to fix the line storing because we are storing nulls

@@ -1,4 +1,5 @@
 import java.util.BitSet;
+import java.util.HashMap;
 /**
  * Write a description of class LRUCache here.
  *
@@ -28,15 +29,15 @@ public class LRUCache extends Cache
         System.out.println(super.toHexString(element.toByteArray()));
         System.out.println("Element length: " + element.length());
         System.out.println("Tag length: " + super.tagLength);
-        System.out.println("Index length: " + super.indexLength);
-        BitSet newElement = new BitSet(super.indexLength + super.tagLength);
+        System.out.println("Index length: " + super.numOfSets);
+        BitSet newElement = new BitSet(super.numOfSets + super.tagLength);
         if(element.length() != super.tagLength + 3)
         {
             for(int i = 0; i < (element.length()-1); i++ )
             {
                 if(element.get(i))
                 {
-                    newElement.set(i+element.length()-(super.indexLength + super.tagLength));
+                    newElement.set(i+element.length()-(super.numOfSets + super.tagLength));
                 }
             }
         }
@@ -48,7 +49,8 @@ public class LRUCache extends Cache
         if(checkExists(tag, index))
         {
             super.hits++;
-            super.cache.get(index).get(getLineNumforTag(tag, index)).setLastUsed(request); //don't do this in FIFO
+            HashMap tempList = super.cache.get(index);
+            tempList.get(getLineNumforTag(tag, index)).setLastUsed(request); //don't do this in FIFO
             return;
         }
         else
@@ -127,7 +129,7 @@ public class LRUCache extends Cache
 
     public int getIndexLength()
     {
-        return super.indexLength;
+        return super.numOfSets;
     }
 
     public Results getResults()
