@@ -41,14 +41,18 @@ public class Cache
         //Populate Rows with 
         for(int j = 0; j < KN/K; j++)
         {
-            line = new HashMap(K); // problems with using the same object?
+            line = new HashMap<BitSet, CacheValues>(K); // problems with using the same object?
+            System.out.println("Creating line");
             for(int i = 0; i < K; i++)
             {
                 lineNum = inttoBitSet(i,numOfLines);
-
-                System.out.println(toHexString(lineNum.toByteArray()));
+                System.out.println(bitSettoInt(lineNum));
                 cacheValue = new CacheValues(tagLength);
                 line.put(lineNum, cacheValue); //add line to set
+                for(Object set:line.keySet())
+                {
+                    System.out.println(line.get(set));
+                }
             }
             index = inttoBitSet(j,numOfSets);
             System.out.println("Adding the line and index value");

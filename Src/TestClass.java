@@ -130,7 +130,7 @@ public class TestClass
         double hitRatio = results.getHitRatio();
         double missRatio = results.getMissRatio();
 
-        Pie pieChart = new Pie(hits, misses);
+        Pie pieChart = new Pie([hits, misses]);
     }
     
     private static void handleResults(FIFOCache cache)
