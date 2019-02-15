@@ -71,13 +71,13 @@ public class TestClass
         // Inner loop is for the different tests
         for(int i = 0; i < 2; i++)
         {
-            for(int j = 0; j < FIFOTests.size(); j++)
+            for(int j = 0; j < LRUTests.size(); j++)
             {
                 if(i ==0)
                 {
                     // LRU Cache case
                     // Perform test on trace 1, then do some cool result stuff
-                    System.out.println("On tesst: " + (j+1));
+                    System.out.println("On test: " + (j+1));
                     storeMemory(LRUTests.get(j), mem1);
 
                     System.out.println("Printing pie chart");
@@ -130,7 +130,7 @@ public class TestClass
         double hitRatio = results.getHitRatio();
         double missRatio = results.getMissRatio();
 
-        Pie pieChart = new Pie([hits, misses]);
+        //Pie pieChart = new Pie([hits, misses]);
     }
     
     private static void handleResults(FIFOCache cache)
