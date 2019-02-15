@@ -5,8 +5,8 @@ import java.lang.Math;
 public class Cache
 {
     //Maybe these are what we are looking for, but maybe not...
-    protected HashMap line;       //Map byte index to CacheValue Object, more important to get working than sets
-    protected HashMap cache;      //Map Set to Rows?
+    protected HashMap<BitSet, CacheValues> line;       //Map byte index to CacheValue Object, more important to get working than sets
+    protected HashMap<BitSet, HashMap<BitSet, CacheValues>> cache;      //Map Set to Rows?
     protected int hits;         // Because these are inherited they need to be protected not private
     protected int misses;       // Because these are inherited they need to be protected not private
     protected int tagLength; 
@@ -26,7 +26,7 @@ public class Cache
         
         // initialise these maps
         //might want to rename rows
-        cache = new HashMap<BitSet, HashMap<BitSet, CacheValues>>(KN/K);
+        this.cache = new HashMap<BitSet, HashMap<BitSet, CacheValues>>(KN/K);
         
         //TODO: math later to find size
         final int  addressLength = 24;
