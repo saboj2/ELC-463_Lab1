@@ -26,10 +26,26 @@ public class LRUCache extends Cache
 
         // Break up element maybe?
         // .get(a, b) a is inclusive, b is exclusive
+        int elementLen = element.length();
+        int targetLen = super.tagLength + super.numOfSets + 3;
+        int diff = targetLen - elementLen;
+        if(diff != 0)
+        {
+            BitSet newElement = new BitSet(targetLen + 1);
+            for(int i = 0; i < elementLen; i++)
+            {
+                if(element.get(i))
+                {
+                    newElement.set(i);
+                }
+                
+            }
+            newElement.set(targetLen+1);
+            element = newElement;
+        }
+        
         System.out.println(super.toHexString(element.toByteArray()));
-        System.out.println("Element length: " + element.length());
-        System.out.println("Tag length: " + super.tagLength);
-        System.out.println("Index length: " + super.numOfSets);
+
         BitSet tag = element.get(0, super.tagLength); 
         BitSet index = element.get(tagLength,element.length() - 3);
 
@@ -72,13 +88,6 @@ public class LRUCache extends Cache
             this.cache.get(index).get(LRUlineNum).setValid(1);
             return;
         }
-        // Check all memory
-        // if element exists in cache: hit do nothing
-            //numRatio++;
-        // else check for opening
-            //numMisses++;
-            // if opening store element
-            // else look for last used and replace
     }
 
     // So we have the index and tag above, now we want to check lines for the index and tag
@@ -87,8 +96,10 @@ public class LRUCache extends Cache
     private boolean checkExists(BitSet tag, BitSet index)
     {
         //super.lines.get(index).contains(tag).getTag()
+        
         for(BitSet lineNum: cache.get(index).keySet())
         {
+            
             if(this.cache.get(index).get(lineNum).getTag() == tag)
             {
                 return true;
@@ -102,6 +113,7 @@ public class LRUCache extends Cache
         BitSet result = new BitSet();
         for(BitSet lineNum: cache.get(index).keySet())
         {
+            
             if(this.cache.get(index).get(lineNum).getTag() == tag)
             {
                 result = lineNum;

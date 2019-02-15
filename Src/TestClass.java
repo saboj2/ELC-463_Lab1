@@ -116,10 +116,11 @@ public class TestClass
         cache.resetRatios();
         int request = 1;
         List<byte[]> addressList = mem.getAddressList();
+        BitSet bitString = new BitSet(24);
         for(byte[] address: addressList)
         {
-            System.out.println(toHexString(address));
-            BitSet bitString = BitSet.valueOf(address);
+            bitString = BitSet.valueOf(address);
+            System.out.println("Count: " + request + "    Address: " + toHexString(bitString.toByteArray()));
             cache.storeElement(bitString,request);
             request++;
         }
