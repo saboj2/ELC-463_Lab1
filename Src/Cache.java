@@ -37,8 +37,6 @@ public class Cache
         numOfLines = logBase2(K); 
         tagLength = addressLength - numOfSets - 3; //3 for offset, 8 address loaded in
         //maybe not use bit sets? cant do nice math on them. Maybe only for dividing up the bits into tag,etc
-        System.out.println(numOfSets);
-        System.out.println(numOfLines);
         index = new BitSet(numOfSets);
         BitSet lineNum = new BitSet(numOfLines);
         CacheValues cacheValue;
@@ -50,23 +48,27 @@ public class Cache
             for(int i = 0; i < K; ++i)
             {
                 lineNum = inttoBitSet(i,numOfLines);
+<<<<<<< HEAD
 
                 System.out.println(lineNum);
+=======
+>>>>>>> f1eaf20affdb7262e3ae3874f4cb018965fc8fcc
                 cacheValue = new CacheValues(tagLength);
                 line.put(lineNum, cacheValue); //add line to set
             }
             index = inttoBitSet(j,numOfSets);
+<<<<<<< HEAD
             System.out.println("Adding the lines " + ", to index " + index);
         
+=======
+>>>>>>> f1eaf20affdb7262e3ae3874f4cb018965fc8fcc
             cache.put(index, line); // add set to cache
-            System.out.println("Added\n");
         }
         // TODO: We need to fix the line storing because we are storing nulls
         /*for(BitSet index:cache.keySet())
         {
             System.out.println(bitSettoInt(index));
         }*/
-        System.out.println("Finished");
     }
     
     public int getHits()
