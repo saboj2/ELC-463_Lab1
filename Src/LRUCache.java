@@ -55,6 +55,11 @@ public class LRUCache extends Cache
         return res;
     }
 
+    public int getTagLength()
+    {
+        return super.tagLength;
+    }
+
     public Results getResults()
     {
         //return new Results(super.getHits(), super.getMisses());

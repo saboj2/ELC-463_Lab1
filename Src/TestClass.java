@@ -30,14 +30,25 @@ public class TestClass
     {
         //Add the different tests to be performed
         System.out.println("Creating different caches");
-        LRUTests.add(new LRUCache(64, 2));
+
+        LRUCache lruCache;
+        for(int k = 64; k < 257; k*=4)
+        {
+            for(int i = 2; i <= 16; i*=2)
+            {
+                System.out.println("Int k = " + k + "    Int i = " + i);
+                lruCache = new LRUCache(k, i);
+                //LRUTests.add(lruCache);
+            }
+        }
+        /*LRUTests.add(new LRUCache(64, 2));
         LRUTests.add(new LRUCache(64, 4));
         LRUTests.add(new LRUCache(64, 8));
         LRUTests.add(new LRUCache(64, 16));
-        //LRUTests.add(new LRUCache(256, 2));
-        //LRUTests.add(new LRUCache(256, 4));
-        //LRUTests.add(new LRUCache(256, 8));
-        //LRUTests.add(new LRUCache(256, 16));
+        LRUTests.add(new LRUCache(256, 2));
+        LRUTests.add(new LRUCache(256, 4));
+        LRUTests.add(new LRUCache(256, 8));
+        LRUTests.add(new LRUCache(256, 16));*/
         //FIFOTests.add(new FIFOCache(64, 2));
         //FIFOTests.add(new FIFOCache(64, 4));
         //FIFOTests.add(new FIFOCache(64, 8));
@@ -49,12 +60,12 @@ public class TestClass
         System.out.println("Finished!");
         //Path to trace files
         String trace1 = "C:\\Users\\babeh_000\\Desktop\\TCNJ\\Senior\\2nd Semester\\CE2\\Trace1.DAT";
-        String trace2 = "C:\\Users\\babeh_000\\Desktop\\TCNJ\\Senior\\2nd Semester\\CE2\\Trace1.DAT";
+        //String trace2 = "C:\\Users\\babeh_000\\Desktop\\TCNJ\\Senior\\2nd Semester\\CE2\\Trace1.DAT";
         
         //Get store the trace files in memory and print the lists
         System.out.println("Importing trace files");
         mem1 = new DataHandler(trace1);
-        mem2 = new DataHandler(trace2);
+        //mem2 = new DataHandler(trace2);
         System.out.println("Finished!");
 
         // TODO: Maybe pass the lists? 
