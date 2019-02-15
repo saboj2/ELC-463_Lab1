@@ -6,10 +6,6 @@ import java.util.BitSet;
 
 public class TempTesting 
 {
-    public static void main(String[]args)
-    {
-        BitSet test = new BitSet(5);
-        test = Cache.inttoBitSet(10,6);
-        System.out.println(test);
-    }
+    Cache cache = new Cache(32,2);
+    
 }

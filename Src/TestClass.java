@@ -12,7 +12,7 @@ public class TestClass
 {
     // Lists for the different types of tests
     // We want to run 8 tests per each which is why I used a list
-    private static List<LRUCache> LRUTests;
+    private static List<LRUCache> LRUTests = new ArrayList<LRUCache>();
     private static List<FIFOCache> FIFOTests;
     
     //These might not be used
@@ -48,9 +48,13 @@ public class TestClass
         //FIFOTests.add(new FIFOCache(256, 16));
         System.out.println("Finished!");
         //Path to trace files
+        /*
         String trace1 = "C:\\Users\\babeh_000\\Desktop\\TCNJ\\Senior\\2nd Semester\\CE2\\Trace1.DAT";
         String trace2 = "C:\\Users\\babeh_000\\Desktop\\TCNJ\\Senior\\2nd Semester\\CE2\\Trace1.DAT";
-        
+        */
+        String trace1 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC 463\\ELC-463_Lab1\\Trace1.DAT";
+        String trace2 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC 463\\ELC-463_Lab1\\Trace2.DAT";
+
         //Get store the trace files in memory and print the lists
         System.out.println("Importing trace files");
         mem1 = new DataHandler(trace1);
@@ -71,7 +75,7 @@ public class TestClass
         // Inner loop is for the different tests
         for(int i = 0; i < 2; i++)
         {
-            for(int j = 0; j < FIFOTests.size(); j++)
+            for(int j = 0; j < LRUTests.size(); j++)
             {
                 if(i ==0)
                 {
@@ -84,7 +88,7 @@ public class TestClass
                     handleResults(LRUTests.get(j));
 
                     // Same as above but for trace 2
-                    //storeMemory(LRUTests.get(j), mem2);
+                    storeMemory(LRUTests.get(j), mem2);
                     //handleResults(LRUTests.get(j));
                 }
                 else
@@ -107,11 +111,13 @@ public class TestClass
     {
         //Handels LRU Cache
         cache.resetRatios();
+        int request = 1;
         List<byte[]> addressList = mem.getAddressList();
         for(byte[] address: addressList)
         {
             BitSet bitString = BitSet.valueOf(address);
-            cache.storeElement(bitString);
+            cache.storeElement(bitString,request);
+            request++;
         }
     }
     
@@ -130,7 +136,7 @@ public class TestClass
         double hitRatio = results.getHitRatio();
         double missRatio = results.getMissRatio();
 
-        Pie pieChart = new Pie(hits, misses);
+        //Pie pieChart = new Pie(hits, misses);
     }
     
     private static void handleResults(FIFOCache cache)
