@@ -51,9 +51,13 @@ public class TestClass
         //FIFOTests.add(new FIFOCache(256, 16));
         System.out.println("Finished!");
         //Path to trace files
-        String trace1 = "C:\\Users\\babeh_000\\Desktop\\TRACE1.DAT";
-        //String trace2 = "C:\\Users\\babeh_000\\Desktop\\TCNJ\\Senior\\2nd Semester\\CE2\\Trace1.DAT";
-        
+        /*
+        String trace1 = "C:\\Users\\babeh_000\\Desktop\\TCNJ\\Senior\\2nd Semester\\CE2\\Trace1.DAT";
+        String trace2 = "C:\\Users\\babeh_000\\Desktop\\TCNJ\\Senior\\2nd Semester\\CE2\\Trace1.DAT";
+        */
+        String trace1 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC 463\\ELC-463_Lab1\\Trace1.DAT";
+        String trace2 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC 463\\ELC-463_Lab1\\Trace2.DAT";
+
         //Get store the trace files in memory and print the lists
         System.out.println("Importing trace files");
         mem1 = new DataHandler(trace1);
@@ -110,12 +114,14 @@ public class TestClass
     {
         //Handels LRU Cache
         cache.resetRatios();
+        int request = 1;
         List<byte[]> addressList = mem.getAddressList();
         for(byte[] address: addressList)
         {
             System.out.println(toHexString(address));
             BitSet bitString = BitSet.valueOf(address);
-            cache.storeElement(bitString);
+            cache.storeElement(bitString,request);
+            request++;
         }
     }
     

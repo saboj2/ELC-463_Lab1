@@ -10,8 +10,11 @@ public class Cache
     protected int hits;         // Because these are inherited they need to be protected not private
     protected int misses;       // Because these are inherited they need to be protected not private
     protected int tagLength; 
-    protected int indexLength;
+    //protected int indexLength;
     protected BitSet index;
+    protected int numOfSets;
+    protected int numOfLines;
+    protected int k; 
 
     /**
      * Constructor for objects of class Cache
@@ -27,10 +30,12 @@ public class Cache
         
         //TODO: math later to find size
         final int  addressLength = 24;
-        indexLength = 0; //TODO: Must fix this for bellow
-        tagLength = addressLength - indexLength - 3; //3 for offset, 8 address loaded in
+        //indexLength = 0; //TODO: Must fix this for below
+        this.k = K;
 
-        int numOfSets = logBase2(KN/K), numOfLines = logBase2(K); 
+        numOfSets = logBase2(KN/K);
+        numOfLines = logBase2(K); 
+        tagLength = addressLength - numOfSets - 3; //3 for offset, 8 address loaded in
         //maybe not use bit sets? cant do nice math on them. Maybe only for dividing up the bits into tag,etc
         index = new BitSet(numOfSets);
         BitSet lineNum = new BitSet(numOfLines);
@@ -40,13 +45,23 @@ public class Cache
         for(int j = 0; j < (KN/K); j++)
         {
             line = new HashMap<BitSet, CacheValues>(K); // problems with using the same object?
-            for(int i = 0; i < K; i++)
+            for(int i = 0; i < K; ++i)
             {
                 lineNum = inttoBitSet(i,numOfLines);
+<<<<<<< HEAD
+
+                System.out.println(lineNum);
+=======
+>>>>>>> f1eaf20affdb7262e3ae3874f4cb018965fc8fcc
                 cacheValue = new CacheValues(tagLength);
                 line.put(lineNum, cacheValue); //add line to set
             }
             index = inttoBitSet(j,numOfSets);
+<<<<<<< HEAD
+            System.out.println("Adding the lines " + ", to index " + index);
+        
+=======
+>>>>>>> f1eaf20affdb7262e3ae3874f4cb018965fc8fcc
             cache.put(index, line); // add set to cache
         }
         // TODO: We need to fix the line storing because we are storing nulls
@@ -84,8 +99,9 @@ public class Cache
         this.setHits(0);
     }
 
-    public int logBase2(int val)
+    public static int logBase2(int val)
     {
+        val -= 1;
         int bits = 1;
         while (val > 1)
         {
@@ -122,8 +138,8 @@ public class Cache
                 val = 1;
             }
 
-            //result += val * Math.pow(2,(binSet.length()-i-1)); Why -1?
-            result += val * Math.pow(2,(binSet.length()-i));
+            result += val * Math.pow(2,(binSet.length()-i-1));
+            //result += val * Math.pow(2,(binSet.length()-i));
         
         }
         return result;
@@ -137,7 +153,7 @@ public class Cache
     public static BitSet inttoBitSet(int num, int length) 
     {
         BitSet result = new BitSet(length);
-        for(int i = 1; i < length; i++)
+        for(int i = 1; i <= length; i++)
         {
             // Based on docs, we only need to do set on vals that are 1!
             if(num % 2 != 0)
