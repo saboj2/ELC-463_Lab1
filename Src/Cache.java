@@ -39,9 +39,9 @@ public class Cache
         CacheValues cacheValue;
          
         //Populate Rows with 
-        for(int j = 0; j < KN/K; j++)
+        for(int j = 0; j < (KN/K); j++)
         {
-            line = new HashMap(K); // problems with using the same object?
+            line = new HashMap<BitSet, CacheValues>(K); // problems with using the same object?
             for(int i = 0; i < K; i++)
             {
                 lineNum = inttoBitSet(i,numOfLines);
@@ -100,7 +100,7 @@ public class Cache
             bits++;
             val/=2;
         }
-        return bits;
+        return bits; //are we sure this does what we think?
     }
 
     public String toHexString(byte[] bytes) {
@@ -130,7 +130,9 @@ public class Cache
                 val = 1;
             }
 
-            result += val * Math.pow(2,(binSet.length()-i-1));
+            //result += val * Math.pow(2,(binSet.length()-i-1)); Why -1?
+            result += val * Math.pow(2,(binSet.length()-i));
+        
         }
         return result;
     }
