@@ -8,7 +8,7 @@ import java.util.BitSet;
 public class CacheValues
 {
     // instance variables - replace the example below with your own
-    private BitSet tag;
+    private String tag;
     private int valid;
     private int lastUsed; //while looping through each address hit, store iterate as reference for LRU/FIFO
 
@@ -18,7 +18,7 @@ public class CacheValues
     public CacheValues(int K)
     {
         // initialise instance variables
-        tag = new BitSet(K);
+        tag = "";
         valid = 0;
         lastUsed = 0;
     }
@@ -28,7 +28,7 @@ public class CacheValues
         return valid;
     }
     
-    public BitSet getTag()
+    public String getTag()
     {
         return tag;
     }
@@ -43,7 +43,7 @@ public class CacheValues
         valid = val;
     }
     
-    public void setTag(BitSet val)
+    public void setTag(String val)
     {
         tag = val;
     }

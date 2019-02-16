@@ -5,13 +5,13 @@ import java.lang.Math;
 public class Cache
 {
     //Maybe these are what we are looking for, but maybe not...
-    protected HashMap<BitSet, CacheValues> line;       //Map byte index to CacheValue Object, more important to get working than sets
-    protected HashMap<BitSet, HashMap<BitSet, CacheValues>> cache;      //Map Set to Rows?
+    protected HashMap<String, CacheValues> line;       //Map byte index to CacheValue Object, more important to get working than sets
+    protected HashMap<String, HashMap<String, CacheValues>> cache;      //Map Set to Rows?
     protected int hits;         // Because these are inherited they need to be protected not private
     protected int misses;       // Because these are inherited they need to be protected not private
     protected int tagLength; 
     //protected int indexLength;
-    protected BitSet index;
+    protected String index;
     protected int numOfSets;
     protected int numOfLines;
     protected int k; 
@@ -26,39 +26,32 @@ public class Cache
         
         // initialise these maps
         //might want to rename rows
-        this.cache = new HashMap<BitSet, HashMap<BitSet, CacheValues>>(KN/K);
+        this.cache = new HashMap<String, HashMap<String, CacheValues>>(KN/K);
         
         //TODO: math later to find size
         final int  addressLength = 24;
-        //indexLength = 0; //TODO: Must fix this for below
         this.k = K;
 
         numOfSets = logBase2(KN/K);
         numOfLines = logBase2(K); 
         tagLength = addressLength - numOfSets - 3; //3 for offset, 8 address loaded in
-        //maybe not use bit sets? cant do nice math on them. Maybe only for dividing up the bits into tag,etc
-        index = new BitSet(numOfSets);
-        BitSet lineNum = new BitSet(numOfLines);
+        index = "" ;
+        String lineNum = "";
         CacheValues cacheValue;
          
         //Populate Rows with 
         for(int j = 0; j < (KN/K); j++)
         {
-            line = new HashMap<BitSet, CacheValues>(K); // problems with using the same object?
+            line = new HashMap<String, CacheValues>(K); // problems with using the same object?
             for(int i = 0; i < K; ++i)
             {
-                lineNum = inttoBitSet(i,numOfLines);
+                lineNum = intToString(i,numOfLines);
                 cacheValue = new CacheValues(tagLength);
                 line.put(lineNum, cacheValue); //add line to set
             }
-            index = inttoBitSet(j,numOfSets);
+            index = intToString(j,numOfSets);
             cache.put(index, line); // add set to cache
         }
-        // TODO: We need to fix the line storing because we are storing nulls
-        /*for(BitSet index:cache.keySet())
-        {
-            System.out.println(bitSettoInt(index));
-        }*/
     }
     
     public int getHits()
@@ -115,18 +108,14 @@ public class Cache
         return hexString.toString();
     }
     
-    public static int bitSettoInt(BitSet binSet)
+    public static int boolToInt(String binSet)
     {
         int result = 0;
         for(int i = 0; i < binSet.length(); i++)
         {
-            // So apparently this is an array of booleans
+            // So apparently this is an array of Strings
             // Good to know but the val update is necessary
-            int val = 0;
-            if(binSet.get(i))
-            {
-                val = 1;
-            }
+            int val = binSet.charAt(i) - '0';
 
             result += val * Math.pow(2,(binSet.length()-i-1));
             //result += val * Math.pow(2,(binSet.length()-i));
@@ -140,15 +129,19 @@ public class Cache
      * It takes the row num asnum and the amount of rows as length
      * The return is the BitSet of what the number should be
      */
-    public static BitSet inttoBitSet(int num, int length) 
+    public static String intToString(int num, int length) 
     {
-        BitSet result = new BitSet(length);
+        String result = "";
         for(int i = 1; i <= length; i++)
         {
             // Based on docs, we only need to do set on vals that are 1!
             if(num % 2 != 0)
             {
-                result.set(length - i);
+                result = result + "1";
+            }
+            else
+            {
+                result = result + "0";
             }
             num = num / 2;
         }

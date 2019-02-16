@@ -6,6 +6,8 @@ import java.util.BitSet;
 
 public class TempTesting 
 {
-    Cache cache = new Cache(32,2);
-    
+    public static void main(String[] args)
+    {
+        Cache cache = new Cache(32,2);
+    }
 }
