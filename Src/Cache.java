@@ -9,6 +9,7 @@ public class Cache
     protected HashMap<String, HashMap<String, CacheValues>> cache;      //Map Set to Rows?
     protected int hits;         // Because these are inherited they need to be protected not private
     protected int misses;       // Because these are inherited they need to be protected not private
+    protected int[] history;
     protected int tagLength; 
     //protected int indexLength;
     protected String index;
@@ -67,6 +68,11 @@ public class Cache
     public void setHits(int hits)
     {
         this.hits = hits;
+    }
+
+    public void initHistory(int size)
+    {
+        this.history = new int[size];
     }
 
     public void setMisses(int misses)

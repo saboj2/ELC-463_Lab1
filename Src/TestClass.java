@@ -21,13 +21,11 @@ public class TestClass {
      */
     public static void main(String[] args) {
         // Add the different tests to be performed
-        System.out.println("Creating different caches");
-
         List<LRUCache> LRUTests = new ArrayList<LRUCache>();
         List<FIFOCache> FIFOTests = new ArrayList<FIFOCache>();
         LRUCache lruCache;
-        for (int k = 64; k < 257; k *= 4) {
-            for (int i = 2; i < 17; i *= 2) {
+        for (int k = 64; k < 65; k *= 4) {
+            for (int i = 2; i < 3; i *= 2) {
                 System.out.println("Int k = " + k + "    Int i = " + i);
                 lruCache = new LRUCache(k, i);
                 LRUTests.add(lruCache);
@@ -54,7 +52,6 @@ public class TestClass {
 
         // Get store the trace files in memory and print the lists
         List<String> addressList = getAdresses(trace1);
-        System.out.println("Importing trace files");
 
         // mem2 = new DataHandler(trace2);
 
@@ -81,7 +78,6 @@ public class TestClass {
         DataHandler mem = new DataHandler(trace);
         List<byte[]> addressList = mem.getAddressList();
         List<String> results = new ArrayList<String>();
-        byte[] pos = new byte[] { (byte) 0x80, 0x40, 0x20, 0x10, 0x8, 0x4, 0x2, 0x1 };
         int count = 0;
         String str;
         for (byte[] address : addressList) {
@@ -108,15 +104,17 @@ public class TestClass {
     private static void performTest(List<LRUCache> list, List<String> addressList) {
         // Outer loop is for the different tyes of cahce
         // Inner loop is for the different tests
+        int[][] results = new int[list.size()][addressList.size()];
         for (int i = 0; i < list.size(); i++) {
             // LRU Cache case
             // Perform test on trace 1, then do some cool result stuff
             System.out.println("On test: " + (i + 1));
             storeMemory(list.get(i), addressList);
 
-            System.out.println("Printing pie chart");
-            // handleResults(list.get(i));
+            //System.out.println("Printing pie chart");
+            results[i] = handleResults(list.get(i));
         }
+        printLineBarGraphs(results);
     }
 
     /*
@@ -125,31 +123,48 @@ public class TestClass {
     private static void storeMemory(LRUCache cache, List<String> addressList) {
         // Handels LRU Cache
         cache.resetRatios();
+        cache.initHistory(addressList.size());
         int request = 1;
         for (String address : addressList) {
-            System.out.println("Iteration: " + request + "    Address: " +address);
             cache.storeElement(address, request);
             request++;
         }
+        cache.printCacheInfo();
     }
 
     private static void storeMemory(FIFOCache cache, DataHandler mem) {
         // Handels FIFO Cache
     }
 
-    private static void handleResults(LRUCache cache) {
+    private static int[] handleResults(LRUCache cache) {
         // Get LRU results
         Results results = cache.getResults();
         int misses = results.getMisses();
         int hits = results.getHits();
         int total = hits + misses;
-        double hitRatio = results.getHitRatio();
-        double missRatio = results.getMissRatio();
+        double hitRatio = (double)hits/(double)total;
+        double missRatio = (double)misses/(double)total;
 
+        System.out.println("TOTAL MISSES: " + misses +
+                         "\nTOTAL HITS: " + hits +
+                         "\nHIT RATIO: " + hitRatio +
+                         "\nMISS RATIO: " + missRatio);
         // Pie pieChart = new Pie([hits, misses]);
+        return results.getHistory();
     }
 
     private static void handleResults(FIFOCache cache) {
         // Handles FIFO results
+    }
+
+    private static void printLineBarGraphs(int[][] res)
+    {
+        int[] test = new int[res[0].length];
+        for(int i = 0 ; i < res[0].length; i++)
+        {
+            test[i] = res[0][i];
+        }
+        System.out.println("HERE");
+        Line.main(test);
     }
 }

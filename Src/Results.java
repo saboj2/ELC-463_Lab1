@@ -1,16 +1,18 @@
 public class Results
 {
-    public int hits;
-    public int misses;
-    public double hitRatio;
-    public double missRatio;
+    private int hits;
+    private int misses;
+    private double hitRatio;
+    private double missRatio;
+    private int[] history;
     
-    public Results(int h, int m)
+    public Results(int h, int m, int[] hist)
     {
         hits = h;
         misses = m;
-        hitRatio = h/(h+m);
-        missRatio = m/(h+m);
+        hitRatio = (double)h/(double)(h+m);
+        missRatio = (double)m/(double)(h+m);
+        history = hist;
     }
 
     public int getHits()
@@ -33,6 +35,11 @@ public class Results
         return this.missRatio;
     }
 
+    public int[] getHistory()
+    {
+        return this.history;
+    }
+
     public void updateHits(int h)
     {
         this.hits = h;
@@ -53,11 +60,17 @@ public class Results
         this.missRatio = this.misses/(this.hits + this.misses);
     }
 
-    public void updateAll(int h, int m)
+    public void updateHistory(int[] hist)
+    {
+        this.history = hist;
+    }
+
+    public void updateAll(int h, int m, int[] hist)
     {
         this.hits = h;
         this.misses = m;
         this.hitRatio = h/(h+m);
         this.missRatio = m/(h+m);
+        this.history = hist;
     }
 }

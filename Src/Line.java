@@ -12,7 +12,7 @@ public class Line extends Application
 {
     static int hist[];
     @Override public void start(Stage stage) {
-        stage.setTitle("LComparison of Hit Ratios Over time");
+        stage.setTitle("Comparison of Hit Ratios Over time");
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
          xAxis.setLabel("Iteration");
@@ -26,7 +26,7 @@ public class Line extends Application
         series = new XYChart.Series();
         for(int i = 0; i < hist.length - 1; i++)
         {
-            double ratio = (double)hist[i]/(double)i;
+            double ratio = (double)hist[i]/(double)i*100;
             series.getData().add(new XYChart.Data(i, ratio));
         }
         lc.getData().add(series);
@@ -40,7 +40,7 @@ public class Line extends Application
                 new PieChart.Data("Hits", hits),
                 new PieChart.Data("Misses", misses));
         final PieChart pie = new PieChart(pieChartData);
-        pie.setTitle("Imported Fruits");
+        pie.setTitle("Hits vs Misses");
 
         // Add Charts to scene and stage
         FlowPane root = new FlowPane();
