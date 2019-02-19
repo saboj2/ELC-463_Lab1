@@ -42,13 +42,11 @@ public class TestClass {
         System.out.println("Finished!");
         // Path to trace files
 
-        String trace1 = "C:\\Users\\babeh_000\\Desktop\\TRACE1.DAT";
-        String trace2 = "C:\\Users\\babeh_000\\Desktop\\TRACE2.DAT";
+        //String trace1 = "C:\\Users\\babeh_000\\Desktop\\TRACE1.DAT";
+        //String trace2 = "C:\\Users\\babeh_000\\Desktop\\TRACE2.DAT";
 
-        // String trace1 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC
-        // 463\\ELC-463_Lab1\\Trace1.DAT";
-        // String trace2 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC
-        // 463\\ELC-463_Lab1\\Trace2.DAT";
+         String trace1 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC463\\ELC-463_Lab1\\TRACE1.DAT";
+         String trace2 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC463\\ELC-463_Lab1\\TRACE2.DAT";
 
         // Get store the trace files in memory and print the lists
         List<String> addressList = getAdresses(trace1);
@@ -114,7 +112,7 @@ public class TestClass {
             //System.out.println("Printing pie chart");
             results[i] = handleResults(list.get(i));
         }
-        printLineBarGraphs(results);
+        //printLineBarGraphs(results);
     }
 
     /*
@@ -156,7 +154,7 @@ public class TestClass {
     private static void handleResults(FIFOCache cache) {
         // Handles FIFO results
     }
-
+    /*
     private static void printLineBarGraphs(int[][] res)
     {
         int[] test = new int[res[0].length];
@@ -166,5 +164,5 @@ public class TestClass {
         }
         System.out.println("HERE");
         Line.main(test);
-    }
+    }*/
 }
