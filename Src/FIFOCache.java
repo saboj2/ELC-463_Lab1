@@ -40,7 +40,7 @@ public class FIFOCache extends Cache
             }
 
             //Update value in que
-            this.cache.get(index).get(getLineNumforTag(tag, index)).setLastUsed(request);
+            //this.cache.get(index).get(getLineNumforTag(tag, index)).setLastUsed(request); //don't do this in FIFO we dont want to keep track of most recent
 
             this.hits++;
         }

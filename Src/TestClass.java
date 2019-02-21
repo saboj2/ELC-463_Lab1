@@ -24,13 +24,13 @@ public class TestClass {
         List<LRUCache> LRUTests = new ArrayList<LRUCache>();
         List<FIFOCache> FIFOTests = new ArrayList<FIFOCache>();
         LRUCache lruCache;
-        /*for (int k = 256; k < 257; k *= 4) {
-            for (int i = 16; i < 17; i *= 2) {
+        for (int k = 64; k < 257; k *= 4) {
+            for (int i = 2; i < 17; i *= 2) {
                 System.out.println("Int k = " + k + "    Int i = " + i);
                 lruCache = new LRUCache(k, i);
                 LRUTests.add(lruCache);
             }
-        }*/
+        }
         FIFOCache fifoCache;
         for (int k = 64; k < 257; k *= 4) {
             for (int i = 2; i < 17; i *= 2) {
@@ -44,9 +44,8 @@ public class TestClass {
         //String trace1 = "C:\\Users\\babeh_000\\Desktop\\TRACE1.DAT";
         //String trace2 = "C:\\Users\\babeh_000\\Desktop\\TRACE2.DAT";
 
-         String trace1 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC463\\ELC-463_Lab1\\TRACE1.DAT";
-         String trace2 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC463\\ELC-463_Lab1\\TRACE2.DAT";
-
+         String trace1 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC 463\\ELC-463_Lab1\\TRACE1.DAT";
+         String trace2 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC 463\\ELC-463_Lab1\\TRACE2.DAT";
         // Get store the trace files in memory and print the lists
         List<String> addressList = getAdresses(trace1);
 
@@ -54,7 +53,7 @@ public class TestClass {
 
         // TODO: Maybe pass the lists?
         // Anyway this is method is used to perform the tests
-        //performLRUTest(LRUTests, addressList);
+        performLRUTest(LRUTests, addressList);
         performFIFOTest(FIFOTests, addressList);
     }
 
