@@ -42,14 +42,11 @@ public class TestClass {
         }
         // Path to trace files
 
-        String trace1 = "C:\\Users\\babeh_000\\Desktop\\TRACE1.DAT";
-        String trace2 = "C:\\Users\\babeh_000\\Desktop\\TRACE2.DAT";
+        //String trace1 = "C:\\Users\\babeh_000\\Desktop\\TRACE1.DAT";
+        //String trace2 = "C:\\Users\\babeh_000\\Desktop\\TRACE2.DAT";
 
-        // String trace1 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC
-        // 463\\ELC-463_Lab1\\Trace1.DAT";
-        // String trace2 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC
-        // 463\\ELC-463_Lab1\\Trace2.DAT";
-
+         String trace1 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC 463\\ELC-463_Lab1\\TRACE1.DAT";
+         String trace2 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC 463\\ELC-463_Lab1\\TRACE2.DAT";
         // Get store the trace files in memory and print the lists
         List<String> addressList = getAdresses(trace1);
 
@@ -57,9 +54,7 @@ public class TestClass {
 
         // TODO: Maybe pass the lists?
         // Anyway this is method is used to perform the tests
-        System.out.println("LRUCache");
         performLRUTest(LRUTests, addressList);
-        System.out.println("\n\nFIFOCache");
         performFIFOTest(FIFOTests, addressList);
     }
 
@@ -198,7 +193,7 @@ public class TestClass {
         // Pie pieChart = new Pie([hits, misses]);
         return results.getHistory();
     }
-
+    /*
     private static void printLineBarGraphs(int[][] res)
     {
         int[] test = new int[res[0].length];
@@ -208,5 +203,5 @@ public class TestClass {
         }
         System.out.println("HERE");
         Line.main(test);
-    }
+    }*/
 }

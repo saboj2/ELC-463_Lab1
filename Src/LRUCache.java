@@ -45,7 +45,8 @@ public class LRUCache extends Cache
                 super.history[request-1] = super.history[request-2] +1;
             }
             super.hits++;
-            this.cache.get(index).get(getLineNumforTag(tag, index)).incrementUse();
+            //if youre storing the last request above, this line probably isnt useful anymore
+            this.cache.get(index).get(getLineNumforTag(tag, index)).setLastUsed(request); //don't do this in FIFO
             return;
         }
         else //Not in cache
