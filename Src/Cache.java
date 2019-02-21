@@ -14,7 +14,7 @@ public class Cache
     //protected int indexLength;
     protected String index;
     protected int numOfSets;
-    protected int numOfLines;
+    protected int indexLength;
     protected int k; 
 
     /**
@@ -29,28 +29,27 @@ public class Cache
         //might want to rename rows
         this.cache = new HashMap<String, HashMap<String, CacheValues>>(KN/K);
         
-        //TODO: math later to find size
         final int  addressLength = 24;
         this.k = K;
 
         numOfSets = logBase2(KN/K);
-        numOfLines = logBase2(K); 
-        tagLength = addressLength - numOfSets - 3; //3 for offset, 8 address loaded in
+        indexLength = logBase2(K); 
+        tagLength = addressLength - indexLength - 3; //3 for offset, 8 address loaded in
         index = "" ;
         String lineNum = "";
         CacheValues cacheValue;
          
         //Populate Rows with 
-        for(int j = 0; j < (KN/K); j++)
+        for(int j = 0; j < K; j++)
         {
             line = new HashMap<String, CacheValues>(K); // problems with using the same object?
-            for(int i = 0; i < K; ++i)
+            for(int i = 0; i < KN/K; ++i)
             {
-                lineNum = intToString(i,numOfLines);
+                lineNum = intToString(i,numOfSets);
                 cacheValue = new CacheValues(tagLength);
                 line.put(lineNum, cacheValue); //add line to set
             }
-            index = intToString(j,numOfSets);
+            index = intToString(j,indexLength);
             cache.put(index, line); // add set to cache
         }
     }
@@ -90,7 +89,7 @@ public class Cache
 
     public static int logBase2(int val)
     {
-        val -= 1;
+        val /=2;
         int bits = 1;
         while (val > 1)
         {

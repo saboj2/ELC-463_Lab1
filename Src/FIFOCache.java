@@ -1,6 +1,8 @@
 
 import java.util.HashMap;
 import java.util.Set;
+import java.io.File;
+import java.io.FileWriter;
 /**
  * Write a description of class FIFO here.
  *
@@ -26,7 +28,6 @@ public class FIFOCache extends Cache
         int tagLen = super.tagLength;
         String tag = element.substring(0, tagLen);
         String index = element.substring(tagLen, element.length() - 3);
-
         if(checkExists(tag, index))
         {
             //Store hit in history
@@ -40,7 +41,6 @@ public class FIFOCache extends Cache
             }
 
             //Update value in que
-            this.cache.get(index).get(getLineNumforTag(tag, index)).setLastUsed(request);
 
             this.hits++;
         }
@@ -50,10 +50,10 @@ public class FIFOCache extends Cache
             boolean stored = false;
             int i = 0;
             String set;
-            while(i < super.numOfLines && !stored) //Loop through
+            while(i < super.numOfSets && !stored) //Loop through
             {
-                set = super.intToString(i,super.numOfLines);
-                if(this.cache.get(index).get(set).getValid()==0) //
+                set = super.intToString(i,super.numOfSets);
+                if(this.cache.get(index).get(set).getValid()==0) //only store if valid is 0
                 {
                     //
                     this.cache.get(index).get(set).setTag(tag);
@@ -124,25 +124,29 @@ public class FIFOCache extends Cache
     // CacheValues is and object of the BitSet and H/M
     private boolean checkExists(String tag, String index)
     {
-        //super.lines.get(index).contains(tag).getTag()
+        //super.lines.get(index).contains(tag).getTag(
         HashMap<String, CacheValues> temp = super.cache.get(index);
         String cacheTag, prevTag = "";
+        boolean result = false;
         for(String lineNum:temp.keySet())
         {
             cacheTag = this.cache.get(index).get(lineNum).getTag();
             if(cacheTag.equals(tag))
             {
-                return true;
+                result = true;
+                break;
             }
             else
             {
-                //System.out.println("SET: " + lineNum);
-                //System.out.println("    TARGET: " + tag);
-                //System.out.println("    In cache: " + cacheTag);
+                
+                String msg = "\nSET: " + lineNum +
+                            "\n\n    TARGET: " + tag +
+                            "\n\n    In cache: " + cacheTag;
             }
             if(prevTag.equals(cacheTag)) { this.shit++; }
+            prevTag = cacheTag;
         }
-        return false;
+        return result;
     }
 
     private String getLineNumforTag(String tag, String index)

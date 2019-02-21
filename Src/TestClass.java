@@ -20,17 +20,18 @@ public class TestClass {
      * Constructor for objects of class TestClass
      */
     public static void main(String[] args) {
+
         // Add the different tests to be performed
         List<LRUCache> LRUTests = new ArrayList<LRUCache>();
         List<FIFOCache> FIFOTests = new ArrayList<FIFOCache>();
         LRUCache lruCache;
-        /*for (int k = 256; k < 257; k *= 4) {
-            for (int i = 16; i < 17; i *= 2) {
+        for (int k = 64; k < 257; k *= 4) {
+            for (int i = 2; i < 17; i *= 2) {
                 System.out.println("Int k = " + k + "    Int i = " + i);
                 lruCache = new LRUCache(k, i);
                 LRUTests.add(lruCache);
             }
-        }*/
+        }
         FIFOCache fifoCache;
         for (int k = 64; k < 257; k *= 4) {
             for (int i = 2; i < 17; i *= 2) {
@@ -56,7 +57,9 @@ public class TestClass {
 
         // TODO: Maybe pass the lists?
         // Anyway this is method is used to perform the tests
-        //performLRUTest(LRUTests, addressList);
+        System.out.println("LRUCache");
+        performLRUTest(LRUTests, addressList);
+        System.out.println("\n\nFIFOCache");
         performFIFOTest(FIFOTests, addressList);
     }
 
@@ -114,7 +117,7 @@ public class TestClass {
             //System.out.println("Printing pie chart");
             results[i] = handleResults(list.get(i));
         }
-        printLineBarGraphs(results);
+        //printLineBarGraphs(results);
     }
 
     private static void performFIFOTest(List<FIFOCache> list, List<String> addressList) {
@@ -145,7 +148,7 @@ public class TestClass {
             cache.storeElement(address, request);
             request++;
         }
-        cache.printCacheInfo();
+        //cache.printCacheInfo();
         System.out.println("repeats in cache: " + cache.shit);
     }
 

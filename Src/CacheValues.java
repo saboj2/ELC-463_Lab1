@@ -52,6 +52,11 @@ public class CacheValues
     {
         lastUsed = i;
     }
+
+    public void incrementUse()
+    {
+        lastUsed++;
+    }
     
     public void printValues()
     {

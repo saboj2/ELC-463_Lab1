@@ -1,6 +1,8 @@
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Set;
+import java.io.File;
+import java.io.FileWriter;
 /**
  * Write a description of class LRUCache here.
  *
@@ -43,62 +45,48 @@ public class LRUCache extends Cache
                 super.history[request-1] = super.history[request-2] +1;
             }
             super.hits++;
-            this.cache.get(index).get(getLineNumforTag(tag, index)).setLastUsed(request); //don't do this in FIFO
+            this.cache.get(index).get(getLineNumforTag(tag, index)).incrementUse();
             return;
         }
-        else
+        else //Not in cache
         {
-            //System.out.println(tag);
-            //System.out.println(index);
-            //System.out.println(request);
-            //Store miss in history
-            if(request == 1) { super.history[request-1] = 0; }
-            else
+            this.misses++;
+            boolean stored = false;
+            int i = 0;
+            String set;
+            while(i < super.numOfSets && !stored) //Loop through
             {
-                super.history[request-1] = super.history[request-2];
+                set = super.intToString(i,super.numOfSets);
+                if(this.cache.get(index).get(set).getValid()==0) //only store if valid is 0
+                {
+                    //
+                    this.cache.get(index).get(set).setTag(tag);
+                    this.cache.get(index).get(set).setLastUsed(request);
+                    this.cache.get(index).get(set).setValid(1);
+                    stored = true;
+                }
+                i++;
             }
 
-            //int LRUEntry =  this.cache.get(index).get(super.intToString(0,super.numOfLines)).getLastUsed();
-            String lastUsed = getLastUsed(this.cache.get(index));
-            String LRUlineNum = "";
-            super.misses++;
-            //go through each line of the set, K is number of sets
-            int i;
-            for(i = 0; i < this.k; i++)
+            //Get the first used string based on the sets for the given index, and the amount of sets K
+            if(!stored)
             {
-                LRUlineNum = super.intToString(i,super.numOfLines);
-                //if current line valid bit is zero, then store current cachevalue in current line
-                if(super.cache.get(index).get(LRUlineNum).getValid() == 0)
-                {
-                    this.cache.get(index).get(LRUlineNum).setLastUsed(request);
-                    this.cache.get(index).get(LRUlineNum).setTag(tag);
-                    this.cache.get(index).get(LRUlineNum).setValid(1);
-                    return;
-                }
-                //else save the last recently used line
-                else
-                {
-                    if(LRUlineNum == lastUsed)
-                    {
-                        
-                        //Store the data in the last recently used line
-                        this.cache.get(index).get(LRUlineNum).setLastUsed(request);
-                    }
-                    this.cache.get(index).get(LRUlineNum).setTag(tag);
-                    this.cache.get(index).get(LRUlineNum).setValid(1);
-                }
+                set = getUsedFirst(this.cache.get(index));
+                this.cache.get(index).get(set).setTag(tag);
+                this.cache.get(index).get(set).setLastUsed(request);
+                this.cache.get(index).get(set).setValid(1);
             }
-            return;
+
         }
     }
 
-    private String getLastUsed(HashMap<String, CacheValues> map)
+    private String getUsedFirst(HashMap<String, CacheValues> map)
     {
-        int used = 0;
+        int used = 60000; //temp;
         String res = "";
         for(String set:map.keySet())
         {
-            if(map.get(set).getLastUsed() > used)
+            if(map.get(set).getLastUsed() < used)
             {
                 used = map.get(set).getLastUsed();
                 res = set;
@@ -143,22 +131,25 @@ public class LRUCache extends Cache
         //super.lines.get(index).contains(tag).getTag()
         HashMap<String, CacheValues> temp = super.cache.get(index);
         String cacheTag, prevTag = "";
+        boolean result = false;
         for(String lineNum:temp.keySet())
         {
             cacheTag = this.cache.get(index).get(lineNum).getTag();
             if(cacheTag.equals(tag))
             {
-                return true;
+                result = true;
+                break;
             }
             else
             {
-                //System.out.println("SET: " + lineNum);
-                //System.out.println("    TARGET: " + tag);
-                //System.out.println("    In cache: " + cacheTag);
+                String msg = "\nSET: " + lineNum +
+                            "\n\n    TARGET: " + tag +
+                            "\n\n    In cache: " + cacheTag;
             }
             if(prevTag.equals(cacheTag)) { this.shit++; }
+            prevTag = cacheTag;
         }
-        return false;
+        return result;
     }
 
     private String getLineNumforTag(String tag, String index)
