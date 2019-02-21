@@ -42,20 +42,27 @@ public class TestClass {
         }
         // Path to trace files
 
-        //String trace1 = "C:\\Users\\babeh_000\\Desktop\\TRACE1.DAT";
-        //String trace2 = "C:\\Users\\babeh_000\\Desktop\\TRACE2.DAT";
+        String trace1 = "C:\\Users\\babeh_000\\Desktop\\TRACE1.DAT";
+        String trace2 = "C:\\Users\\babeh_000\\Desktop\\TRACE2.DAT";
 
-         String trace1 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC 463\\ELC-463_Lab1\\TRACE1.DAT";
-         String trace2 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC 463\\ELC-463_Lab1\\TRACE2.DAT";
+        //String trace1 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC 463\\ELC-463_Lab1\\TRACE1.DAT";
+        //String trace2 = "C:\\Users\\Jeffrey\\Documents\\2018-2019\\ELC 463\\ELC-463_Lab1\\TRACE2.DAT";
         // Get store the trace files in memory and print the lists
-        List<String> addressList = getAdresses(trace1);
+        List<String> addressList1 = getAdresses(trace1);
+        List<String> addressList2 = getAdresses(trace2);
 
         // mem2 = new DataHandler(trace2);
 
         // TODO: Maybe pass the lists?
         // Anyway this is method is used to perform the tests
-        performLRUTest(LRUTests, addressList);
-        performFIFOTest(FIFOTests, addressList);
+        System.out.println("Performing LRU Test on Trace 1");
+        performLRUTest(LRUTests, addressList1);
+        System.out.println("\nPerforming LRU Test on Trace 2");
+        performLRUTest(LRUTests, addressList2);
+        System.out.println("\n\nPerforming FIFO Test on Trace 1");
+        performFIFOTest(FIFOTests, addressList1);
+        System.out.println("\nPerforming FIFO Test on Trace 2");
+        performFIFOTest(FIFOTests, addressList2);
     }
 
     public static String toHexString(byte[] bytes) {
@@ -143,8 +150,6 @@ public class TestClass {
             cache.storeElement(address, request);
             request++;
         }
-        //cache.printCacheInfo();
-        System.out.println("repeats in cache: " + cache.shit);
     }
 
     private static void storeFIFOMemory(FIFOCache cache,List<String> addressList) {
@@ -156,8 +161,6 @@ public class TestClass {
             cache.storeElement(address, request);
             request++;
         }
-        //cache.printCacheInfo();
-        System.out.println("repeats in cache: " + cache.shit);
     }
 
     private static int[] handleResults(LRUCache cache) {

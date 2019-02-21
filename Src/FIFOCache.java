@@ -12,7 +12,6 @@ import java.io.FileWriter;
 public class FIFOCache extends Cache
 {
     // TODO Set up FIFO Class
-    public int shit = 0;
     /**
      * Constructor for objects of class FIFO
      */
@@ -144,7 +143,6 @@ public class FIFOCache extends Cache
                             "\n\n    TARGET: " + tag +
                             "\n\n    In cache: " + cacheTag;
             }
-            if(prevTag.equals(cacheTag)) { this.shit++; }
             prevTag = cacheTag;
         }
         return result;

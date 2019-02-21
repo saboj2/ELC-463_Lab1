@@ -12,7 +12,6 @@ import java.io.FileWriter;
 public class LRUCache extends Cache
 {
     // TODO: Set up LRU Cache
-    public int shit = 0;
     /**
      * Constructor for objects of class LRUCache
      * This class is a type of cache 
@@ -147,7 +146,6 @@ public class LRUCache extends Cache
                             "\n\n    TARGET: " + tag +
                             "\n\n    In cache: " + cacheTag;
             }
-            if(prevTag.equals(cacheTag)) { this.shit++; }
             prevTag = cacheTag;
         }
         return result;
