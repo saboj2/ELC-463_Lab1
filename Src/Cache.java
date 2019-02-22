@@ -1,37 +1,35 @@
 import java.util.HashMap;
-import java.util.BitSet;
 import java.lang.Math;
 
+/*
+ * This is the parent class for LRUCache class and FIFOCache class
+ * It is used to store all the attributes and methods shared 
+ */
 public class Cache
 {
-    //Maybe these are what we are looking for, but maybe not...
     protected HashMap<String, CacheValues> line;       //Map byte index to CacheValue Object, more important to get working than sets
     protected HashMap<String, HashMap<String, CacheValues>> cache;      //Map Set to Rows?
     protected int hits;         // Because these are inherited they need to be protected not private
     protected int misses;       // Because these are inherited they need to be protected not private
-    protected int[] history;
     protected int tagLength; 
-    //protected int indexLength;
     protected String index;
     protected int numOfSets;
     protected int indexLength;
     protected int k; 
 
-    /**
+    /*
      * Constructor for objects of class Cache
      */
     public Cache(int KN, int K)
     {
-        //N = KN/K is Number of sets
-        //K is number of rows
         
         // initialise these maps
-        //might want to rename rows
         this.cache = new HashMap<String, HashMap<String, CacheValues>>(KN/K);
         
         final int  addressLength = 24;
         this.k = K;
 
+        //Set the lengths of sets,index and tags
         numOfSets = logBase2(KN/K);
         indexLength = logBase2(K); 
         tagLength = addressLength - indexLength - 3; //3 for offset, 8 address loaded in
@@ -54,39 +52,25 @@ public class Cache
         }
     }
     
+    /*
+     * Get total number of hits
+     */
     public int getHits()
     {
         return this.hits;
     }
 
+    /*
+     * Get total number of misses
+     */
     public int getMisses()
     {
         return this.misses;
     }
 
-    public void setHits(int hits)
-    {
-        this.hits = hits;
-    }
-
-    public void initHistory(int size)
-    {
-        this.history = new int[size];
-    }
-
-    public void setMisses(int misses)
-    {
-        this.misses = misses;
-    }
-
-    public void resetRatios()
-    {
-        //Set all H's to misses and,
-        //set number of hits to 0, number of misses to 0
-        this.setMisses(0);
-        this.setHits(0);
-    }
-
+    /*
+     * This method takes an integer and returns the log base 2 of that int
+     */
     public static int logBase2(int val)
     {
         val /=2;
@@ -96,50 +80,89 @@ public class Cache
             bits++;
             val/=2;
         }
-        return bits; //are we sure this does what we think?
-    }
-
-    public String toHexString(byte[] bytes) {
-        StringBuilder hexString = new StringBuilder();
-    
-        for (int i = 0; i < bytes.length; i++) {
-            String hex = Integer.toHexString(0xFF & bytes[i]);
-            if (hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
-        }
-    
-        return hexString.toString();
+        return bits; 
     }
     
-    public static int boolToInt(String binSet)
+    /*
+        * This method takes a HashMAp as its paramater and finds which set was the last used
+        * It then returns the set in the method above to be updated with a new tag value
+        */
+    protected String getUsedFirst(HashMap<String, CacheValues> map)
     {
-        int result = 0;
-        for(int i = 0; i < binSet.length(); i++)
+        int used = 60000; //Set to amount of addresses in the trace file;
+        String res = "";
+        for(String set:map.keySet())
         {
-            // So apparently this is an array of Strings
-            // Good to know but the val update is necessary
-            int val = binSet.charAt(i) - '0';
+            if(map.get(set).getLastUsed() < used)
+            {
+                used = map.get(set).getLastUsed();
+                res = set;
+            }
+        }
+        return res;
+    }
 
-            result += val * Math.pow(2,(binSet.length()-i-1));
-            //result += val * Math.pow(2,(binSet.length()-i));
-        
+    /*
+        * This method checks all sets for the tag based on the given nidex
+        */
+    protected boolean checkExists(String tag, String index)
+    {
+        String cacheTag;
+        boolean result = false;
+        for(String lineNum:this.cache.get(index).keySet())  //Loop through the sets for the given index
+        {
+            cacheTag = this.cache.get(index).get(lineNum).getTag(); //Get the tag in the set
+            if(cacheTag.equals(tag))
+            {
+                result = true;
+                break;
+            }
+            else { } //Do nothing
         }
         return result;
     }
 
     /*
+        * This method searches for the set the tag is located in
+        * This is always going to return a value because the check for
+        * if it exists in the cache is already done
+        */
+    protected String getLineNumforTag(String tag, String index)
+    {
+        String result = "";
+        for(String lineNum: cache.get(index).keySet())
+        {
+            
+            if(this.cache.get(index).get(lineNum).getTag().equals(tag))
+            {
+                result = lineNum;
+                break;
+            }
+            
+        }
+        return result;
+    }
+
+    /*
+     * This method resets the hits and misses so that the second test runs
+     * as if the first never happened and the results are correct
+     */
+    protected void reset()
+    {
+        this.misses = 0;
+        this.hits = 0;
+    }
+
+    /*
      * This method is used to create the different index keys for the hasmap
      * It takes the row num asnum and the amount of rows as length
-     * The return is the BitSet of what the number should be
+     * The return is the String of what the number should be
      */
     public static String intToString(int num, int length) 
     {
         String result = "";
         for(int i = 1; i <= length; i++)
         {
-            // Based on docs, we only need to do set on vals that are 1!
             if(num % 2 != 0)
             {
                 result = result + "1";
@@ -153,8 +176,3 @@ public class Cache
         return result;
     }
 }
-/*
-    _____________________________________________________________________________
-   |                                   taglength | taglength + 1-addresslenth-4 | 3bits offset  |
-    _____________________________________________________________________________     
-*/  

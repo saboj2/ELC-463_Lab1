@@ -3,45 +3,30 @@ import java.util.HashMap;
 import java.util.Set;
 import java.io.File;
 import java.io.FileWriter;
-/**
- * Write a description of class FIFO here.
- *
- * @author (your name)
- * @version (a version number or a date)
+/*
+ * This class is used to create a FIFO Cache object
+ * It contains the storage implementation that differs it from LRU
  */
 public class FIFOCache extends Cache
 {
-    // TODO Set up FIFO Class
     /**
      * Constructor for objects of class FIFO
      */
     public FIFOCache(int KN, int K)
     {
-        // initialise instance variables
+        // Call parent's constuctor
         super(KN, K);
     }
 
+    /*
+     * This method takes the address as element and the iteration as request
+     */
     public void storeElement(String element, int request)
     {
-        
-        int tagLen = super.tagLength;
-        String tag = element.substring(0, tagLen);
-        String index = element.substring(tagLen, element.length() - 3);
-        if(checkExists(tag, index))
+        String tag = element.substring(0, super.tagLength);
+        String index = element.substring(super.tagLength, element.length() - 3);
+        if(super.checkExists(tag, index))
         {
-            //Store hit in history
-            if(request == 0)
-            {
-                super.history[request-1]++;
-            }
-            else
-            {
-                super.history[request-1] = super.history[request-2] +1;
-            }
-
-            //Update value in que
-            //this.cache.get(index).get(getLineNumforTag(tag, index)).setLastUsed(request); //don't do this in FIFO we dont want to keep track of most recent
-
             this.hits++;
         }
         else //Not in cache
@@ -75,123 +60,21 @@ public class FIFOCache extends Cache
 
         }
     }
-
-    private String getUsedFirst(HashMap<String, CacheValues> map)
-    {
-        int used = 60000; //temp;
-        String res = "";
-        for(String set:map.keySet())
-        {
-            if(map.get(set).getLastUsed() < used)
-            {
-                used = map.get(set).getLastUsed();
-                res = set;
-            }
-        }
-        return res;
-    }
     
-    public void initHistry(int size)
+    /*
+        * Resets hits and misses
+        */
+    public void reset()
     {
-        super.initHistory(size);
+        super.reset();
     }
 
-    public void printCacheInfo()
-    {
-        String info = "";
-        int count = 0;
-        int subCount;
-        int total = 0;
-        for(String ind:super.cache.keySet())
-        {
-            info = info +  "Count: " + count + " , Index: " + ind + "\n";
-            count++;
-            subCount = 0;
-            for(String set:super.cache.get(ind).keySet())
-            {
-                CacheValues value = super.cache.get(ind).get(set);
-                info = info +  "    Subcount: " + subCount + " , Tag: " + value.getTag() + "\n";
-                subCount++;
-                total++;
-            }
-        }
-        info = info + "TOTAL BLOCKS: " + total + "\n";
-        System.out.println(info);
-    }
-
-    // So we have the index and tag above, now we want to check lines for the index and tag
-    // Lines is the cache, it is a hashmap of BitSets and CacheValues.
-    // CacheValues is and object of the BitSet and H/M
-    private boolean checkExists(String tag, String index)
-    {
-        //super.lines.get(index).contains(tag).getTag(
-        HashMap<String, CacheValues> temp = super.cache.get(index);
-        String cacheTag, prevTag = "";
-        boolean result = false;
-        for(String lineNum:temp.keySet())
-        {
-            cacheTag = this.cache.get(index).get(lineNum).getTag();
-            if(cacheTag.equals(tag))
-            {
-                result = true;
-                break;
-            }
-            else
-            {
-                
-                String msg = "\nSET: " + lineNum +
-                            "\n\n    TARGET: " + tag +
-                            "\n\n    In cache: " + cacheTag;
-            }
-            prevTag = cacheTag;
-        }
-        return result;
-    }
-
-    private String getLineNumforTag(String tag, String index)
-    {
-        String result = "";
-        for(String lineNum: cache.get(index).keySet())
-        {
-            
-            if(this.cache.get(index).get(lineNum).getTag().equals(tag))
-            {
-                result = lineNum;
-                break;
-            }
-            
-        }
-        return result;
-    }
-
-    public int getTagLength()
-    {
-        return super.tagLength;
-    }
-
-    public int getIndexLength()
-    {
-        return super.numOfSets;
-    }
-
+    /*
+     * This method returns a new Results object
+     */
     public Results getResults()
     {
-        return new Results(super.getHits(), super.getMisses(), super.history);
-        //return new Results(54000, 6000);
+        return new Results(super.getHits(), super.getMisses());
 
-    }
-    
-    public void resetRatios()
-    {
-        super.resetRatios();
-    }
-
-    public String toString()
-    {
-        String str = "Tag Size: " + this.getTagLength() + 
-                    "\nIndex Size: " + this.getIndexLength() +
-                    "\nHit: " + super.getHits() +
-                    "\nMisses: " + super.getMisses();
-        return str;
     }
 }

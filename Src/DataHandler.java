@@ -3,26 +3,24 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
-/**
- * Write a description of class DatHandler here.
- *
- * @author (your name)
- * @version (a version number or a date)
+
+/*
+ * This class is used to read the trace files into memory
  */
 public class DataHandler
 {
-    // instance variables - replace the example below with your own
-    private List<byte[]> death; //
+    private List<byte[]> addressList; 
 
-    /**
-     * Constructor for objects of class DatHandler
+    /*
+     * This creates a List based on the file found in the path
      */
     public DataHandler(String path)
     {
-        death = new ArrayList<>();
+        addressList = new ArrayList<>();
         // These trace files are 180KB long, hopefully mem can handle that
         try
         {
+            //Read the file
             FileInputStream fis = new FileInputStream(path); 
             DataInputStream dis = new DataInputStream(fis);
             int length = dis.available();
@@ -32,11 +30,10 @@ public class DataHandler
             try
             {
                 byte[] traceValue = new byte[1];
-                int Count = 0;
-                for(int i = 0; i < length; i+=3)
+                for(int i = 0; i < length; i+=3) 
                 {
-                    //Do maths
                     byte[] memAddress = new byte[3];
+                    //Handle if the cache sizes do not workout
                     if(i + 2 < length)
                     {
                         traceValue[0] = buff[i+2];
@@ -45,7 +42,6 @@ public class DataHandler
                         System.arraycopy(traceValue, 0, memAddress, 1, 1);
                         traceValue[0] = buff[i];
                         System.arraycopy(traceValue, 0, memAddress, 2, 1);
-                        Count++;
                     }
                     else if(i + 1 < length && i + 2 >= length)
                     {
@@ -55,7 +51,6 @@ public class DataHandler
                         System.arraycopy(traceValue, 0, memAddress, 1, 1);
                         traceValue[0] = buff[i];
                         System.arraycopy(traceValue, 0, memAddress, 2, 1);
-                        Count++;
                     }
                     else
                     {
@@ -64,9 +59,8 @@ public class DataHandler
                         System.arraycopy(traceValue, 0, memAddress, 1, 1);
                         traceValue[0] = buff[i];
                         System.arraycopy(traceValue, 0, memAddress, 2, 1);
-                        Count++;
                     }
-                    this.death.add(memAddress);
+                    this.addressList.add(memAddress);
                 }
             }
             catch(Exception e)
@@ -80,67 +74,11 @@ public class DataHandler
         }
     }
     
-    public static String toHexString(byte[] bytes) {
-        StringBuilder hexString = new StringBuilder();
-    
-        for (int i = 0; i < bytes.length; i++) {
-            String hex = Integer.toHexString(0xFF & bytes[i]);
-            if (hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
-        }
-    
-        return hexString.toString();
-    }
-    
-    public List<byte[]> getAddressesTop(int n)
-    {
-        List<byte[]> subList;
-        if(n < death.size())
-        {
-            subList = death.subList(0, n);
-            return subList;
-        }
-        else
-        {
-            return getAddressList();
-        }
-    }
-    
+    /*
+     * This method returns the addressList
+     */
     public List<byte[]> getAddressList()
     {
-       return death;
-    }
-    
-    public void printTop(int n)
-    {
-        
-        System.out.println("Printing " + n + " addresses");
-        /*for(int i = 1; i < n - 1; i+=3)
-        {
-            if(i + 1 < n)
-            {
-                System.out.println(toHexString(death.get(i-1)) + ", " + toHexString(death.get(i)) + ", " + toHexString(death.get(i + 1)));
-            }
-            else if(i < n && i+1 >=n)
-            {
-                System.out.println(toHexString(death.get(i-1)) + ", " + toHexString(death.get(i)));
-            }
-            else
-            {
-                System.out.println(toHexString(death.get(i-1)));
-            }
-        }*/
-        for(int i = 0; i <death.size()/1000; i++)
-        {
-            System.out.print(toHexString(death.get(i)) + ", ");
-        }
-        System.out.println("\nEnd of list");
-    }
-    
-    public void printList()
-    {
-        printTop(death.size());
+       return addressList;
     }
 }
